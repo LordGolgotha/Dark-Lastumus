@@ -1,11 +1,16 @@
+import os
+from dotenv import load_dotenv
 import discord
 from enum_class import Classe
 from typing import Literal
 from discord.ext import commands
 from discord import app_commands
 from gestion_levels import *
+from keep_alive import keep_alive
 
-token = "MTQ4MzEzOTIxNjQzMDA3MTgyOA.GaX84T.fLpraVJjqRRzmOBXuBh5mTvSehsD8t_HN19i-M"
+load_dotenv()
+
+token = os.getenv('DISCORD_TOKEN')
 
 intents = discord.Intents.all()
 
@@ -96,4 +101,5 @@ async def on_ready():
     except Exception as e:
         print(e)
 
+keep_alive()
 bot.run(token=token)
