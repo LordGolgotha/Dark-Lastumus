@@ -2,12 +2,53 @@ import os
 from dotenv import load_dotenv
 import discord
 from enum_class import Classe
-from typing import Literal
 from discord.ext import commands
 from discord import app_commands
+from typing import Literal
 from gestion_levels import *
 
 load_dotenv()
+
+emoji_list = [
+    '<:osamodas:1483790487356706868>',
+    '<:enutrof:1483790486023176372>',
+    '<:sram:1483790484542459955>',
+    '<:xelor:1483790482793562112>',
+    '<:ecaflip:1483790481367236608>',
+    '<:eniripsa:1483790480054419537>',
+    '<:iop:1483790477986627615>',
+    '<:cra:1483790476959289434>',
+    '<:sadida:1483790475638083784>',
+    '<:sacrieur:1483790474363011152>',
+    '<:pandawa:1483790472286572614>',
+    '<:roublard:1483790471154368533>',
+    '<:zobal:1483790469291966526>',
+    '<:ouginak:1483790467639410698>',
+    '<:steamer:1483790466230255646>',
+    '<:eliotrope:1483790464573505589>',
+    '<:huppermage:1483790462593794190>',
+    '<:feca:1483790196263620669>'
+]
+classe_list = [
+    'osamodas',
+    'enutrof',
+    'sram',
+    'xelor',
+    'ecaflip',
+    'eniripsa',
+    'iop',
+    'cra',
+    'sadida',
+    'sacrieur',
+    'pandawa',
+    'roublard',
+    'zobal',
+    'ouginak',
+    'steamer',
+    'eliotrope',
+    'huppermage',
+    'feca'
+]
 
 token = os.getenv('DISCORD_TOKEN')
 
@@ -112,6 +153,42 @@ async def getstuffer(ctx: discord.context_managers,levels : Literal[20,35,50,65,
         list_player.append(f"- {player} : {list_levels}")
     res = delimiter.join(list_player)
     await ctx.send(f"Joueur avec un stuff a la tranche {levels}:\n{res}")
+
+@app_commands.describe(donjon='le donjon en question')
+@app_commands.describe(classe='La classe que vous comptez jouer')
+@app_commands.describe(lvl= 'le level du donjon')
+@app_commands.describe(besoin = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon"
+    )
+async def dj(ctx: discord.context_managers, donjon,classe : Classe, lvl,besoin = ""):
+    contenu = ""
+    if besoin == "":
+        contenu = f"Donjon {donjon} modulé au level {lvl}"
+    else:
+        contenu = f"Donjon {donjon} modulé au level {lvl}: \n - Besoin d'au moins: {besoin}"
+    contenu += f"\n- {ctx.author.name}: {classe.name}"
+    message = await ctx.send(contenu)
+    
+    for emoji in emoji_list:
+        await message.add_reaction(emoji)
+
+@bot.event
+async def on_reaction_add(reaction, user):
+    message = reaction.message
+    channel = discord.utils.get(message.guild.channels, name="général") #our channel
+    if message.channel.id == channel.id: # checking if it's the same channel
+        if message.author == bot.user: #checking if it's sent by the bot
+            if user != bot.user:
+                if reaction.emoji.name in classe_list: #checking the emoji
+                    await message.edit(content = f"{message.content}\n- {user}: {reaction.emoji.name}")
+                    
+    nb_reactions =0
+    for r in message.reactions:
+        nb_reactions+= r.count
+    if nb_reactions >= 23:
+        await message.clear_reactions()
+        await message.edit(content = f"{message.content}\nGroupe au complet!")
 
 @bot.event
 async def on_ready():
