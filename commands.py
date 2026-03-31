@@ -6,7 +6,6 @@ from typing import Literal
 from discord.ext import commands
 from discord import app_commands
 from gestion_levels import *
-from keep_alive import keep_alive
 
 load_dotenv()
 
@@ -22,7 +21,10 @@ bot = commands.Bot(command_prefix="!", intents = intents)
 #async def stele(ctx,name,item1,qt1,item2,qt2,item3,qt3,item4,qt4,item5,qt5,item6,qt6):
 #    await ctx.send(f"stele {name}:\n- {item1}: 0/{qt1}\n- {item2}: 0/{qt2}\n- {item3}: 0/{qt3}\n- {item4}: 0/{qt4}\n- {item5}: 0/{qt5}\n- {item6}: 0/{qt6}")
 
-@app_commands.describe(classes='La classe en question')
+@app_commands.describe(
+        classes='La classe en question',
+        pseudo='Votre pseudo le plus connus par la guilde',
+        levels="Liste des levels optis pour cette classe séparé par des virgules")
 @bot.hybrid_command(
     description="Ajoute vos niveaux opti sur vos personnes",
     brief="Ajoute vos niveaux opti sur vos personnes",
@@ -35,6 +37,24 @@ async def addopti(ctx: discord.context_managers,pseudo : str,classes : Classe,le
         player_levels.add(int(level))
     set_opti(str.capitalize(pseudo),classes.value,player_levels)
     await ctx.send(f"Ajout du joueur {pseudo.capitalize()} les levels optis {levels}")
+
+@app_commands.describe(
+        classes='La classe en question',
+        pseudo='Votre pseudo le plus connus par la guilde',
+        levels="Liste des levels low costs pour cette classe séparé par des virgules")
+@bot.hybrid_command(
+    description="Ajoute vos niveaux low cost sur vos personnes",
+    brief="Ajoute vos niveaux low cost sur vos personnes",
+    help = "Mettez votre pseudo suivi de la classe puis de la liste des niveaux. Exemple /addlowcost DarkLastumus Osamodas 200,215,185,110"
+    )
+async def addlowcost(ctx: discord.context_managers,pseudo : str,classes : Classe,levels: str) -> None:
+    await ctx.defer()
+    player_levels = set()
+    for level in levels.split(","):
+        player_levels.add(int(level))
+    set_low_cost(str.capitalize(pseudo),classes.value,player_levels)
+    await ctx.send(f"Ajout du joueur {pseudo.capitalize()} les levels low cost {levels}")
+
 
 @app_commands.describe(levels='le level en question')
 @bot.hybrid_command(
@@ -101,5 +121,4 @@ async def on_ready():
     except Exception as e:
         print(e)
 
-keep_alive()
 bot.run(token=token)
