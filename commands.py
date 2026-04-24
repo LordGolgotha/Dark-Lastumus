@@ -179,19 +179,25 @@ async def dj(ctx: discord.context_managers, donjon,classe : Classe, lvl:str,stat
 @bot.event
 async def on_reaction_add(reaction, user):
     message = reaction.message
-    channel = discord.utils.get(message.guild.channels, name="général") #our channel
+    channel = discord.utils.get(message.guild.channels, name="commande-bot") #our channel
     if message.channel.id == channel.id: # checking if it's the same channel
         if message.author == bot.user: #checking if it's sent by the bot
             if user != bot.user:
                 if reaction.emoji.name in classe_list: #checking the emoji
-                    await message.edit(content = f"{message.content}\n- {user}: {reaction.emoji.name}")
+                    await message.edit(content = f"{message.content}\n- {user.mention}: {str.capitalize(reaction.emoji.name)}")
                     
     nb_reactions =0
     for r in message.reactions:
         nb_reactions+= r.count
     if nb_reactions >= 23:
+        liste = message.mentions
         await message.clear_reactions()
         await message.edit(content = f"{message.content}\nGroupe au complet!")
+        liste_mention = []
+        for joueur in liste:
+            liste_mention.append(bot.get_user(joueur.id).mention)
+        await message.reply(f"{','.join(liste_mention)} votre donjon est prêt !")
+    
 
 @bot.event
 async def on_ready():
