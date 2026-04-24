@@ -154,20 +154,23 @@ async def getstuffer(ctx: discord.context_managers,levels : Literal[20,35,50,65,
     res = delimiter.join(list_player)
     await ctx.send(f"Joueur avec un stuff a la tranche {levels}:\n{res}")
 
-@app_commands.describe(donjon='le donjon en question')
-@app_commands.describe(classe='La classe que vous comptez jouer')
-@app_commands.describe(lvl= 'le level du donjon')
-@app_commands.describe(besoin = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, ...)')
+@app_commands.describe(donjon='le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       lvl= 'le level du donjon',
+                       statis= 'le niveau de statis',
+                       date= 'la date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       besoin = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, ...)')
 @bot.hybrid_command(
     description="Organiser un groupe de donjon"
     )
-async def dj(ctx: discord.context_managers, donjon,classe : Classe, lvl,besoin = ""):
-    contenu = ""
-    if besoin == "":
-        contenu = f"Donjon {donjon} modulé au level {lvl}"
-    else:
-        contenu = f"Donjon {donjon} modulé au level {lvl}: \n - Besoin d'au moins: {besoin}"
-    contenu += f"\n- {ctx.author.name}: {classe.name}"
+async def dj(ctx: discord.context_managers, donjon,classe : Classe, lvl:str,statis,date="",besoin = ""):
+    contenu = f"Donjon {donjon} modulé au level {lvl} S{statis}"
+    if date != "":
+        contenu += f" le {convert_date(date)} au {ctx.interaction.locale}"
+    if besoin != "":
+        contenu += f": \n - Besoin d'au moins: {besoin}"
+    
+    contenu += f"\n- {ctx.author.mention}: {classe.name}"
     message = await ctx.send(contenu)
     
     for emoji in emoji_list:

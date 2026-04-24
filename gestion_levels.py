@@ -1,4 +1,8 @@
 from pymongo_get_database import get_database
+
+from datetime import datetime
+
+
 dbname = get_database('Level')
 collection_opti = dbname["opti"]
 collection_low_cost = dbname["low_cost"]
@@ -105,15 +109,11 @@ def del_level(pseudo,classe,level:int,collection):
     collection.update_one({"_id" : pseudo}, {'$set': {"levels" : new_dict_player}})
     print(f"Suppression du level {level} pour la class {classe} de {pseudo}")
     
+def convert_date(date: str):
+    dt = datetime.strptime(date, "%d/%m/%Y %H:%M")
+    timestamp = str(int(dt.timestamp()))
+    return "<t:"+ timestamp + ":f>"
 
 
 if __name__ == "__main__":
-    #print(predicat_opti_classe(200,))
-    #print(get_opti(200))
-    set_opti("Lord","Huppermage <:huppermage:1483790462593794190>",[200,215,110])
-    set_opti("Lord","Ouginak <:ouginak:1483790467639410698>",[200,65,20,110])
-    set_opti("Lordgougougaga","Ouginak <:ouginak:1483790467639410698>",[200,215,185])
-    set_opti("Lordgougougaga","Cra <:cra:1483790476959289434>",[185,215,20,50])
-    set_low_cost("Lordgougougaga","Cra <:cra:1483790476959289434>",[185,215,65,50])
-    del_low_cost("Lordgougougaga","Cra",185)
-    del_opti("Lordgougougaga","Cra",185)
+    pass
