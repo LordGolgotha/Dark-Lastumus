@@ -109,10 +109,10 @@ def del_level(pseudo,classe,level:int,collection):
     collection.update_one({"_id" : pseudo}, {'$set': {"levels" : new_dict_player}})
     print(f"Suppression du level {level} pour la class {classe} de {pseudo}")
     
-def convert_date(date: str):
+def convert_date(date: str,utc: int):
     dt = datetime.strptime(date, "%d/%m/%Y %H:%M")
-    timestamp = str(int(dt.timestamp()))
-    return "<t:"+ timestamp + ":f>"
+    timestamp = int(dt.timestamp()) + utc*3600
+    return "<t:"+ str(timestamp) + ":f>"
 
 
 if __name__ == "__main__":

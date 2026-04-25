@@ -6,6 +6,7 @@ from discord.ext import commands
 from discord import app_commands
 from typing import Literal
 from gestion_levels import *
+from liste_donjon import *
 
 load_dotenv()
 
@@ -154,27 +155,303 @@ async def getstuffer(ctx: discord.context_managers,levels : Literal[20,35,50,65,
     res = delimiter.join(list_player)
     await ctx.send(f"Joueur avec un stuff a la tranche {levels}:\n{res}")
 
-@app_commands.describe(donjon='le donjon en question',
-                       classe='La classe que vous comptez jouer',
-                       lvl= 'le level du donjon',
-                       statis= 'le niveau de statis',
-                       date= 'la date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
-                       besoin = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, ...)')
-@bot.hybrid_command(
-    description="Organiser un groupe de donjon"
-    )
-async def dj(ctx: discord.context_managers, donjon,classe : Classe, lvl:str,statis,date="",besoin = ""):
-    contenu = f"Donjon {donjon} modulé au level {lvl} S{statis}"
+def dj_generique(ctx,  donjon, statis, classe,lvl, date ="",besoin =""):
+    contenu = f"Donjon **{donjon}** modulé niveau **{lvl}**, niveau de statis **S{statis}**"
     if date != "":
-        contenu += f" le {convert_date(date)} au {ctx.interaction.locale}"
+        utc = int(ctx.interaction.created_at.strftime("%z"))
+        contenu += f" le {convert_date(date,utc)}"
     if besoin != "":
         contenu += f": \n - Besoin d'au moins: {besoin}"
     
-    contenu += f"\n- {ctx.author.mention}: {classe.name}"
+
+    contenu += f"\n- {ctx.author.mention}: {classe}"
+    return contenu
+
+
+async def new_message(ctx, contenu):
     message = await ctx.send(contenu)
     
     for emoji in emoji_list:
         await message.add_reaction(emoji)
+
+@app_commands.describe(donjon='Le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       statis= 'Le niveau de statis',
+                       date= 'La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       info = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon lvl 20"
+    )
+async def dj20(ctx: discord.context_managers,
+               donjon : liste_donjon_20,
+               statis : Literal[1,2,3,4,5,6,7,8,9,10],
+               classe : Classe,
+               date="",
+               info = ""):
+    contenu = dj_generique(ctx,donjon,statis,classe.name,20,date,info)
+    await new_message(ctx, contenu)
+    
+@app_commands.describe(donjon='Le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       statis= 'Le niveau de statis',
+                       date= 'La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       info = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon lvl 35"
+    )
+async def dj35(ctx: discord.context_managers,
+               donjon : liste_donjon_35,
+               statis : Literal[1,2,3,4,5,6,7,8,9,10],
+               classe : Classe,
+               date="",
+               info = ""):
+    contenu = dj_generique(ctx,donjon,statis,classe.name,35,date,info)
+    await new_message(ctx, contenu)
+
+@app_commands.describe(donjon='Le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       statis= 'Le niveau de statis',
+                       date= 'La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       info = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon lvl 50"
+    )
+async def dj50(ctx: discord.context_managers,
+               donjon : liste_donjon_50,
+               statis : Literal[1,2,3,4,5,6,7,8,9,10],
+               classe : Classe,
+               date="",
+               info = ""):
+    contenu = dj_generique(ctx,donjon,statis,classe.name,65,date,info)
+    await new_message(ctx, contenu)
+
+@app_commands.describe(donjon='Le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       statis= 'Le niveau de statis',
+                       date= 'La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       info = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon lvl 65"
+    )
+async def dj65(ctx: discord.context_managers,
+               donjon : liste_donjon_65,
+               statis : Literal[1,2,3,4,5,6,7,8,9,10],
+               classe : Classe,
+               date="",
+               info = ""):
+    contenu = dj_generique(ctx,donjon,statis,classe.name,65,date,info)
+    await new_message(ctx, contenu)
+
+@app_commands.describe(donjon='Le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       statis= 'Le niveau de statis',
+                       date= 'La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       info = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon lvl 80"
+    )
+async def dj80(ctx: discord.context_managers,
+               donjon : liste_donjon_80,
+               statis : Literal[1,2,3,4,5,6,7,8,9,10],
+               classe : Classe,
+               date="",
+               info = ""):
+    contenu = dj_generique(ctx,donjon,statis,classe.name,80,date,info)
+    await new_message(ctx, contenu)
+
+@app_commands.describe(donjon='Le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       statis= 'Le niveau de statis',
+                       date= 'La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       info = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon lvl 95"
+    )
+async def dj95(ctx: discord.context_managers,
+               donjon : liste_donjon_95,
+               statis : Literal[1,2,3,4,5,6,7,8,9,10],
+               classe : Classe,
+               date="",
+               info = ""):
+    contenu = dj_generique(ctx,donjon,statis,classe.name,95,date,info)
+    await new_message(ctx, contenu)
+
+@app_commands.describe(donjon='Le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       statis= 'Le niveau de statis',
+                       date= 'La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       info = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon lvl 110"
+    )
+async def dj110(ctx: discord.context_managers,
+               donjon : liste_donjon_110,
+               statis : Literal[1,2,3,4,5,6,7,8,9,10],
+               classe : Classe,
+               date="",
+               info = ""):
+    contenu = dj_generique(ctx,donjon,statis,classe.name,110,date,info)
+    await new_message(ctx, contenu)
+
+@app_commands.describe(donjon='Le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       statis= 'Le niveau de statis',
+                       date= 'La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       info = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon lvl 125"
+    )
+async def dj125(ctx: discord.context_managers,
+               donjon : liste_donjon_125,
+               statis : Literal[1,2,3,4,5,6,7,8,9,10],
+               classe : Classe,
+               date="",
+               info = ""):
+    contenu = dj_generique(ctx,donjon,statis,classe.name,125,date,info)
+    await new_message(ctx, contenu)
+
+@app_commands.describe(donjon='Le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       statis= 'Le niveau de statis',
+                       date= 'La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       info = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon lvl 140"
+    )
+async def dj140(ctx: discord.context_managers,
+               donjon : liste_donjon_140,
+               statis : Literal[1,2,3,4,5,6,7,8,9,10],
+               classe : Classe,
+               date="",
+               info = ""):
+    contenu = dj_generique(ctx,donjon,statis,classe.name,140,date,info)
+    await new_message(ctx, contenu)
+
+@app_commands.describe(donjon='Le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       statis= 'Le niveau de statis',
+                       date= 'La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       info = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon lvl 155"
+    )
+async def dj155(ctx: discord.context_managers,
+               donjon : liste_donjon_155,
+               statis : Literal[1,2,3,4,5,6,7,8,9,10],
+               classe : Classe,
+               date="",
+               info = ""):
+    contenu = dj_generique(ctx,donjon,statis,classe.name,155,date,info)
+    await new_message(ctx, contenu)
+
+@app_commands.describe(donjon='Le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       statis= 'Le niveau de statis',
+                       date= 'La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       info = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon lvl 170"
+    )
+async def dj170(ctx: discord.context_managers,
+               donjon : liste_donjon_170,
+               statis : Literal[1,2,3,4,5,6,7,8,9,10],
+               classe : Classe,
+               date="",
+               info = ""):
+    contenu = dj_generique(ctx,donjon,statis,classe.name,170,date,info)
+    await new_message(ctx, contenu)
+
+@app_commands.describe(donjon='Le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       statis= 'Le niveau de statis',
+                       date= 'La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       info = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon lvl 185"
+    )
+async def dj185(ctx: discord.context_managers,
+               donjon : liste_donjon_185,
+               statis : Literal[1,2,3,4,5,6,7,8,9,10],
+               classe : Classe,
+               date="",
+               info = ""):
+    contenu = dj_generique(ctx,donjon,statis,classe.name,185,date,info)
+    await new_message(ctx, contenu)
+
+@app_commands.describe(donjon='Le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       statis= 'Le niveau de statis',
+                       date= 'La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       info = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon lvl 200"
+    )
+async def dj200(ctx: discord.context_managers,
+               donjon : liste_donjon_200,
+               statis : Literal[1,2,3,4,5,6,7,8,9,10],
+               classe : Classe,
+               date="",
+               info = ""):
+    contenu = dj_generique(ctx,donjon,statis,classe.name,20,date,info)
+    await new_message(ctx, contenu)
+
+@app_commands.describe(donjon='Le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       statis= 'Le niveau de statis',
+                       date= 'La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       info = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon lvl 215"
+    )
+async def dj215(ctx: discord.context_managers,
+               donjon : liste_donjon_215,
+               statis : Literal[1,2,3,4,5,6,7,8,9,10],
+               classe : Classe,
+               date="",
+               info = ""):
+    contenu = dj_generique(ctx,donjon,statis,classe.name,215,date,info)
+    await new_message(ctx, contenu)
+
+@app_commands.describe(donjon='Le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       statis= 'Le niveau de statis',
+                       date= 'La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       info = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon lvl 230"
+    )
+async def dj230(ctx: discord.context_managers,
+               donjon : liste_donjon_230,
+               statis : Literal[1,2,3,4,5,6,7,8,9,10],
+               classe : Classe,
+               date="",
+               info = ""):
+    contenu = dj_generique(ctx,donjon,statis,classe.name,230,date,info)
+    await new_message(ctx, contenu)
+
+@app_commands.describe(donjon='Le donjon en question',
+                       classe='La classe que vous comptez jouer',
+                       statis= 'Le niveau de statis',
+                       date= 'La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+                       info = 'Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)')
+@bot.hybrid_command(
+    description="Organiser un groupe de donjon lvl 245"
+    )
+async def dj245(ctx: discord.context_managers,
+               donjon : liste_donjon_245,
+               statis : Literal[1,2,3,4,5,6,7,8,9,10],
+               classe : Classe,
+               date="",
+               info = ""):
+    contenu = dj_generique(ctx,donjon,statis,classe.name,245,date,info)
+    await new_message(ctx, contenu)
+
+@bot.hybrid_command()
+async def test(ctx):
+    dt = ctx.interaction.created_at
+    date = convert_date("24/02/1999 13:00")
+    print(date)
+    await ctx.send(dt.strftime("%z"))
 
 @bot.event
 async def on_reaction_add(reaction, user):
