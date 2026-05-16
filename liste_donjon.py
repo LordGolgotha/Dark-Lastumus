@@ -3,12 +3,14 @@ from typing import Literal
 liste_donjon_20 = Literal[
     "Pâturages Des Bouftous",
     "Le Tofulailler",
-    "Larventura"
+    "Larventura",
+    "Tournée"
 ]
 liste_donjon_35 = Literal[
     "Donjon des Abraknes",
     "Le Caveau Relevé",
-    "Piou Lahoupe"
+    "Piou Lahoupe",
+    "Tournée"
 ]
 liste_donjon_50 = Literal[
     "Le Papaturage Royal",
@@ -16,7 +18,8 @@ liste_donjon_50 = Literal[
     "Donjon Equipage Du Poulpe",
     "Les Champs Pourchan",
     "Donjon Morts-Brûlés",
-    "La Tour Minérale 50"
+    "La Tour Minérale 50",
+    "Tournée"
 ]
 liste_donjon_65 = Literal[
     "L'Antre Oubliée",
@@ -26,7 +29,8 @@ liste_donjon_65 = Literal[
     "Kokokolantha",
     "Château des Cwabes",
     "Donjon Marteaux-Aigris",
-    "Tour des Miss Moches"
+    "Tour des Miss Moches",
+    "Tournée"
 ]
 liste_donjon_80 = Literal[
     "Les Ratacombes",
@@ -37,7 +41,8 @@ liste_donjon_80 = Literal[
     "Antre d'Excarnus",
     "Donjon Arakne",
     "Truchière Abandonnée",
-    "Temple du grand Orrok"
+    "Temple du grand Orrok",
+    "Tournée"
 ]
 liste_donjon_95 = Literal[
     "Le Hammamamoule",
@@ -48,7 +53,8 @@ liste_donjon_95 = Literal[
     "Château de Wagnar",
     "Académie Trool",
     "Nécropoil de Morbax",
-    "Antre du Meulou"
+    "Antre du Meulou",
+    "Tournée"
 ]
 liste_donjon_110 = Literal[
     "Le Glaglacier Cornu",
@@ -59,7 +65,8 @@ liste_donjon_110 = Literal[
     "L'Arène Dansante",
     "Donjon Gelée",
     "Antre du Corbeau Noir",
-    "Antre du Boufrog"
+    "Antre du Boufrog",
+    "Tournée"
 ]
 liste_donjon_125 = Literal[
     "Le pot d'Hagen-Glass",
@@ -70,7 +77,8 @@ liste_donjon_125 = Literal[
     "La Tour Gelée 125",
     "Aile de L'Ambassadrice",
     "La Pichine",
-    "Antre du Dragon-Cochon"
+    "Antre du Dragon-Cochon",
+    "Tournée"
 ]
 liste_donjon_140 = Literal[
     "Domaine de la Trouffe Salée",
@@ -79,7 +87,8 @@ liste_donjon_140 = Literal[
     "Donjon Abraknyde",
     "Compost du grand Potofeu",
     "Palais Lenald",
-    "Jawdin de la Weine"
+    "Jawdin de la Weine",
+    "Tournée"
 ]
 liste_donjon_155 = Literal[
     "Le Vignoble Ignoble",
@@ -90,7 +99,8 @@ liste_donjon_155 = Literal[
     "Donjon Sabléoptère",
     "Laboratoire de Womewo",
     "Château du Wa Wabbit",
-    "Tal Kasha"
+    "Tal Kasha",
+    "Tournée"
 ]
 liste_donjon_170 = Literal[
     "Donjon Patapoutrerie",
@@ -100,7 +110,8 @@ liste_donjon_170 = Literal[
     "Donjon E-Bou",
     "Fabrique Méka",
     "Repaire de Kali",
-    "Plateau des Haut-Vents: Serre d'Acier"
+    "Plateau des Haut-Vents: Serre d'Acier",
+    "Tournée"
 ]
 liste_donjon_185 = Literal[
     "Donjon des Crocodailles",
@@ -108,7 +119,8 @@ liste_donjon_185 = Literal[
     "Donjon des Tropikes",
     "Donjon des Kannibouls",
     "Cité Interdite",
-    "Cime du Grand Totem"
+    "Cime du Grand Totem",
+    "Tournée"
 ]
 liste_donjon_200 = Literal[
     "Sanctuaire des Dragoeufs",
@@ -121,7 +133,8 @@ liste_donjon_200 = Literal[
     "Ogrest 200",
     "Antre de Nogord l'Ezarélé",
     "Dimension-Objet d'Ombrage",
-    "Tour Minérale 200"
+    "Tour Minérale 200",
+    "Tournée"
 ]
 liste_donjon_215 = Literal[
     "Donjon Carapattes",
@@ -132,7 +145,8 @@ liste_donjon_215 = Literal[
     "Donjon Cagnardeurs",
     "Donjon Toundrasoirs",
     "Donjon Tour Minérale 215",
-    "Ogrest 215"
+    "Ogrest 215",
+    "Tournée"
 ]
 liste_donjon_230 = Literal[
     "Donjon Phytomorphe",
@@ -145,7 +159,8 @@ liste_donjon_230 = Literal[
     "Palais de Rushu",
     "Nécromonde",
     "Donjon Steamers",
-    "Donjon Poisseux abyssaux"
+    "Donjon Poisseux abyssaux",
+    "Tournée"
 ]
 liste_donjon_245 = Literal[
     "Théatre intemporel",
@@ -154,5 +169,6 @@ liste_donjon_245 = Literal[
     "Donjon Savanastraux",
     "Donjon Primassifs",
     "Donjon Férociraptors",
-    "Coeur de l'horloge de Nox"
+    "Coeur de l'horloge de Nox",
+    "Tournée"
 ]
