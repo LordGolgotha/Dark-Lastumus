@@ -97,6 +97,31 @@ async def addlowcost(ctx: discord.context_managers,classes : Classe,levels: str)
     set_low_cost(ctx.author.id,classes.value,player_levels)
     await ctx.send(f"Ajout du joueur {ctx.author.name.capitalize()} les levels low cost {levels}")
 
+@app_commands.describe(
+        classes='La classe en question',
+        levels="Liste des levels optis pour cette classe séparé par des virgules")
+@bot.hybrid_command(
+    description="Retire vos niveaux opti sur vos personnages",
+    brief="Retire vos niveaux opti sur vos personnages",
+    help = "Mettez votre pseudo suivi de la classe puis de la liste des niveaux. Exemple /removeopti DarkLastumus Osamodas 200,215,185,110"
+    )
+async def removelowcost(ctx: discord.context_managers,classes : Classe, levels: list_levels) -> None:
+    await ctx.defer()
+    del_low_cost(ctx.author.id,classes.value,levels)
+    await ctx.send(f"Retrait du level {levels} à la classe {classes.value} du joueur {ctx.author.name.capitalize()}")
+
+@app_commands.describe(
+        classes='La classe en question',
+        levels="Liste des levels optis pour cette classe séparé par des virgules")
+@bot.hybrid_command(
+    description="Retire vos niveaux opti sur vos personnages",
+    brief="Retire vos niveaux opti sur vos personnages",
+    help = "Mettez votre pseudo suivi de la classe puis de la liste des niveaux. Exemple /removeopti DarkLastumus Osamodas 200,215,185,110"
+    )
+async def removeopti(ctx: discord.context_managers,classes : Classe, levels: list_levels) -> None:
+    await ctx.defer()
+    del_opti(ctx.author.id,classes.value,levels)
+    await ctx.send(f"Retrait du level {levels} à la classe {classes.value} du joueur {ctx.author.name.capitalize()}")
 
 @app_commands.describe(levels='le level en question')
 @bot.hybrid_command(
