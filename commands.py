@@ -472,13 +472,9 @@ async def dj245(ctx: discord.context_managers,
     contenu = dj_generique(ctx,donjon,statis,classe.name,245,date,info)
     await new_message(ctx, contenu)
 
-@bot.hybrid_command()
-async def test(ctx):
-    dt = ctx.interaction.created_at
-    date = convert_date("24/02/1999 13:00")
-    print(date)
-    await ctx.send(dt.strftime("%z"))
-
+@bot.hybrid_command(description='Bonjour?')
+async def bonjour(ctx: discord.context_managers):
+    await ctx.send(f"Non pas bonjour, je vais en donjon avec des randoms et je fais rien avec cette guilde de m\*\*\*\*")
 @bot.event
 async def on_reaction_add(reaction, user):
     message = reaction.message
