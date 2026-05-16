@@ -16,7 +16,7 @@ class Classe(enum.Enum):
     Eniripsa = "Eniripsa <:eniripsa:1483790480054419537>"
     Sacrieur = "Sacrieur <:sacrieur:1483790474363011152>"
     Zobal = "Zobal <:zobal:1483790469291966526>"
-    Roublar = "Roublar <:roublard:1483790471154368533>"
+    Roublard = "Roublard <:roublard:1483790471154368533>"
     Enutrof = "Enutrof <:enutrof:1483790486023176372>"
     Sram = "Sram <:sram:1483790484542459955>"
     Eliotrope = "Eliotrope <:eliotrope:1483790464573505589>"
