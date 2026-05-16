@@ -95,7 +95,8 @@ def del_low_cost(pseudo,classe,level: int):
     del_level(pseudo,classe,level,collection_low_cost)
 
 def del_level(pseudo,classe,level:int,collection):
-    player = collection.find_one({"_id" : pseudo})
+    player = collection.find_one({"_id" : int(pseudo)})
+    print(f"{player} {type(pseudo)}")
     if player == None:
         return False
     else:
@@ -103,11 +104,11 @@ def del_level(pseudo,classe,level:int,collection):
         for player_classe in player['levels']:
             print(f"{player_classe} & {classe}")
             if classe in player_classe:
-                player['levels'][player_classe].remove(level)
-                print(player['levels'][player_classe])
+                if int(level) in player['levels'][player_classe]:
+                    player['levels'][player_classe].remove(int(level))
             new_dict_player[player_classe] = player['levels'][player_classe].copy()
     collection.update_one({"_id" : pseudo}, {'$set': {"levels" : new_dict_player}})
-    print(f"Suppression du level {level} pour la class {classe} de {pseudo}")
+    print(f"Suppression du level {level} pour la classe {classe} de {pseudo}")
     
 def convert_date(date: str,utc: int):
     dt = datetime.strptime(date, "%d/%m/%Y %H:%M")

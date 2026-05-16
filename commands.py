@@ -65,37 +65,35 @@ bot = commands.Bot(command_prefix="!", intents = intents)
 
 @app_commands.describe(
         classes='La classe en question',
-        pseudo='Votre pseudo le plus connus par la guilde',
         levels="Liste des levels optis pour cette classe séparé par des virgules")
 @bot.hybrid_command(
-    description="Ajoute vos niveaux opti sur vos personnes",
-    brief="Ajoute vos niveaux opti sur vos personnes",
+    description="Ajoute vos niveaux opti sur vos personnages",
+    brief="Ajoute vos niveaux opti sur vos personnages",
     help = "Mettez votre pseudo suivi de la classe puis de la liste des niveaux. Exemple /addopti DarkLastumus Osamodas 200,215,185,110"
     )
-async def addopti(ctx: discord.context_managers,pseudo : str,classes : Classe,levels: str) -> None:
+async def addopti(ctx: discord.context_managers,classes : Classe, levels: str) -> None:
     await ctx.defer()
     player_levels = set()
     for level in levels.split(","):
         player_levels.add(int(level))
-    set_opti(str.capitalize(pseudo),classes.value,player_levels)
-    await ctx.send(f"Ajout du joueur {pseudo.capitalize()} les levels optis {levels}")
+    set_opti(ctx.author.id,classes.value,player_levels)
+    await ctx.send(f"Ajout du joueur {ctx.author.name.capitalize()} les levels optis {levels}")
 
 @app_commands.describe(
         classes='La classe en question',
-        pseudo='Votre pseudo le plus connus par la guilde',
         levels="Liste des levels low costs pour cette classe séparé par des virgules")
 @bot.hybrid_command(
     description="Ajoute vos niveaux low cost sur vos personnes",
     brief="Ajoute vos niveaux low cost sur vos personnes",
     help = "Mettez votre pseudo suivi de la classe puis de la liste des niveaux. Exemple /addlowcost DarkLastumus Osamodas 200,215,185,110"
     )
-async def addlowcost(ctx: discord.context_managers,pseudo : str,classes : Classe,levels: str) -> None:
+async def addlowcost(ctx: discord.context_managers,classes : Classe,levels: str) -> None:
     await ctx.defer()
     player_levels = set()
     for level in levels.split(","):
         player_levels.add(int(level))
-    set_low_cost(str.capitalize(pseudo),classes.value,player_levels)
-    await ctx.send(f"Ajout du joueur {pseudo.capitalize()} les levels low cost {levels}")
+    set_low_cost(ctx.author.id,classes.value,player_levels)
+    await ctx.send(f"Ajout du joueur {ctx.author.name.capitalize()} les levels low cost {levels}")
 
 
 @app_commands.describe(levels='le level en question')
@@ -113,7 +111,8 @@ async def getopti(ctx: discord.context_managers,levels : Literal[20,35,50,65,80,
     for player in dict_player:
         temp = ", "
         list_levels = temp.join(dict_player[player])
-        list_player.append(f"- {player} : {list_levels}")
+        member = await commands.MemberConverter().convert(ctx, str(player))
+        list_player.append(f"- {member.nick} : {list_levels}")
     res = delimiter.join(list_player)
     await ctx.send(f"Joueur opti a la tranche {levels}:\n{res}")
 
@@ -132,7 +131,8 @@ async def getlowcost(ctx: discord.context_managers,levels : Literal[20,35,50,65,
     for player in dict_player:
         temp = ", "
         list_levels = temp.join(dict_player[player])
-        list_player.append(f"- {player} : {list_levels}")
+        member = await commands.MemberConverter().convert(ctx, str(player))
+        list_player.append(f"- {member.nick} : {list_levels}")
     res = delimiter.join(list_player)
     await ctx.send(f"Joueur low cost a la tranche {levels}:\n{res}")
 
@@ -151,7 +151,8 @@ async def getstuffer(ctx: discord.context_managers,levels : Literal[20,35,50,65,
     for player in dict_player:
         temp = ", "
         list_levels = temp.join(dict_player[player])
-        list_player.append(f"- {player} : {list_levels}")
+        member = await commands.MemberConverter().convert(ctx, str(player))
+        list_player.append(f"- {member.nick} : {list_levels}")
     res = delimiter.join(list_player)
     await ctx.send(f"Joueur avec un stuff a la tranche {levels}:\n{res}")
 
@@ -167,10 +168,8 @@ def dj_generique(ctx,  donjon, statis, classe,lvl, date ="",besoin =""):
     contenu += f"\n- {ctx.author.mention}: {classe}"
     return contenu
 
-
 async def new_message(ctx, contenu):
     message = await ctx.send(contenu)
-    
     for emoji in emoji_list:
         await message.add_reaction(emoji)
 
