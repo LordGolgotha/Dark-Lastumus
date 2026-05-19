@@ -183,17 +183,22 @@ async def getstuffer(ctx: discord.context_managers,levels : list_levels):
     res = delimiter.join(list_player)
     await ctx.send(f"Joueur avec un stuff a la tranche {levels}:\n{res}")
 
-def dj_generique(ctx,  donjon, statis, classe,lvl, date ="",besoin =""):
-    contenu = f"Donjon **{donjon}** modulé niveau **{lvl}**, niveau de statis **S{statis}**"
-    if date != "":
-        utc = int(ctx.interaction.created_at.strftime("%z"))
-        contenu += f" le {convert_date(date,utc)}"
-    if besoin != "":
-        contenu += f": \n - Besoin d'au moins: {besoin}"
-    
-
-    contenu += f"\n- {ctx.author.mention}: {classe}"
+def dj_generique(ctx, donjon, statis, classe, date ="",besoin =""):
+    id_message = ctx.message.id
+    #TODO gérer le nombre de joueur
+    nb_joueur = 6
+    create_dj(id_message,donjon,date,statis,ctx.message.author.id,classe,nb_joueur,besoin)
+    contenu = construction_message(id_message)
     return contenu
+
+def construction_message(id):
+    info_dj = get_dj_info(id)
+    text = f"Donjon **{info_dj['donjon']}** modulé au niveau de statis **S{info_dj['statis']}** le {info_dj['date']}"
+    if info_dj['besoin'] != "":
+        text += f"\n{info_dj['besoin']}"
+    for j in info_dj['joueurs']:
+        text += f"\n- {bot.get_user(j[0]).mention}: {str.capitalize(j[1])}"
+    return text
 
 async def new_message(ctx, contenu):
     message = await ctx.send(contenu)
@@ -214,7 +219,7 @@ async def dj20(ctx: discord.context_managers,
                classe : Classe,
                date="",
                info = ""):
-    contenu = dj_generique(ctx,donjon,statis,classe.name,20,date,info)
+    contenu = dj_generique(ctx,donjon,statis,classe.name,date,info)
     await new_message(ctx, contenu)
     
 @app_commands.describe(donjon='Le donjon en question',
@@ -231,7 +236,7 @@ async def dj35(ctx: discord.context_managers,
                classe : Classe,
                date="",
                info = ""):
-    contenu = dj_generique(ctx,donjon,statis,classe.name,35,date,info)
+    contenu = dj_generique(ctx,donjon,statis,classe.name,date,info)
     await new_message(ctx, contenu)
 
 @app_commands.describe(donjon='Le donjon en question',
@@ -248,7 +253,7 @@ async def dj50(ctx: discord.context_managers,
                classe : Classe,
                date="",
                info = ""):
-    contenu = dj_generique(ctx,donjon,statis,classe.name,65,date,info)
+    contenu = dj_generique(ctx,donjon,statis,classe.name,date,info)
     await new_message(ctx, contenu)
 
 @app_commands.describe(donjon='Le donjon en question',
@@ -265,7 +270,7 @@ async def dj65(ctx: discord.context_managers,
                classe : Classe,
                date="",
                info = ""):
-    contenu = dj_generique(ctx,donjon,statis,classe.name,65,date,info)
+    contenu = dj_generique(ctx,donjon,statis,classe.name,date,info)
     await new_message(ctx, contenu)
 
 @app_commands.describe(donjon='Le donjon en question',
@@ -282,7 +287,7 @@ async def dj80(ctx: discord.context_managers,
                classe : Classe,
                date="",
                info = ""):
-    contenu = dj_generique(ctx,donjon,statis,classe.name,80,date,info)
+    contenu = dj_generique(ctx,donjon,statis,classe.name,date,info)
     await new_message(ctx, contenu)
 
 @app_commands.describe(donjon='Le donjon en question',
@@ -299,7 +304,7 @@ async def dj95(ctx: discord.context_managers,
                classe : Classe,
                date="",
                info = ""):
-    contenu = dj_generique(ctx,donjon,statis,classe.name,95,date,info)
+    contenu = dj_generique(ctx,donjon,statis,classe.name,date,info)
     await new_message(ctx, contenu)
 
 @app_commands.describe(donjon='Le donjon en question',
@@ -316,7 +321,7 @@ async def dj110(ctx: discord.context_managers,
                classe : Classe,
                date="",
                info = ""):
-    contenu = dj_generique(ctx,donjon,statis,classe.name,110,date,info)
+    contenu = dj_generique(ctx,donjon,statis,classe.name,date,info)
     await new_message(ctx, contenu)
 
 @app_commands.describe(donjon='Le donjon en question',
@@ -333,7 +338,7 @@ async def dj125(ctx: discord.context_managers,
                classe : Classe,
                date="",
                info = ""):
-    contenu = dj_generique(ctx,donjon,statis,classe.name,125,date,info)
+    contenu = dj_generique(ctx,donjon,statis,classe.name,date,info)
     await new_message(ctx, contenu)
 
 @app_commands.describe(donjon='Le donjon en question',
@@ -350,7 +355,7 @@ async def dj140(ctx: discord.context_managers,
                classe : Classe,
                date="",
                info = ""):
-    contenu = dj_generique(ctx,donjon,statis,classe.name,140,date,info)
+    contenu = dj_generique(ctx,donjon,statis,classe.name,date,info)
     await new_message(ctx, contenu)
 
 @app_commands.describe(donjon='Le donjon en question',
@@ -367,7 +372,7 @@ async def dj155(ctx: discord.context_managers,
                classe : Classe,
                date="",
                info = ""):
-    contenu = dj_generique(ctx,donjon,statis,classe.name,155,date,info)
+    contenu = dj_generique(ctx,donjon,statis,classe.name,date,info)
     await new_message(ctx, contenu)
 
 @app_commands.describe(donjon='Le donjon en question',
@@ -384,7 +389,7 @@ async def dj170(ctx: discord.context_managers,
                classe : Classe,
                date="",
                info = ""):
-    contenu = dj_generique(ctx,donjon,statis,classe.name,170,date,info)
+    contenu = dj_generique(ctx,donjon,statis,classe.name,date,info)
     await new_message(ctx, contenu)
 
 @app_commands.describe(donjon='Le donjon en question',
@@ -401,7 +406,7 @@ async def dj185(ctx: discord.context_managers,
                classe : Classe,
                date="",
                info = ""):
-    contenu = dj_generique(ctx,donjon,statis,classe.name,185,date,info)
+    contenu = dj_generique(ctx,donjon,statis,classe.name,date,info)
     await new_message(ctx, contenu)
 
 @app_commands.describe(donjon='Le donjon en question',
@@ -418,7 +423,7 @@ async def dj200(ctx: discord.context_managers,
                classe : Classe,
                date="",
                info = ""):
-    contenu = dj_generique(ctx,donjon,statis,classe.name,20,date,info)
+    contenu = dj_generique(ctx,donjon,statis,classe.name,date,info)
     await new_message(ctx, contenu)
 
 @app_commands.describe(donjon='Le donjon en question',
@@ -435,7 +440,7 @@ async def dj215(ctx: discord.context_managers,
                classe : Classe,
                date="",
                info = ""):
-    contenu = dj_generique(ctx,donjon,statis,classe.name,215,date,info)
+    contenu = dj_generique(ctx,donjon,statis,classe.name,date,info)
     await new_message(ctx, contenu)
 
 @app_commands.describe(donjon='Le donjon en question',
@@ -475,27 +480,42 @@ async def dj245(ctx: discord.context_managers,
 @bot.hybrid_command(description='Bonjour?')
 async def bonjour(ctx: discord.context_managers):
     await ctx.send(f"Non pas bonjour, je vais en donjon avec des randoms et je fais rien avec cette guilde de m\*\*\*\*")
+
 @bot.event
 async def on_reaction_add(reaction, user):
+    message = reaction.message
+    channel = discord.utils.get(message.guild.channels, name="commande-bot") #our channel
+    test_full = False
+    id = 0
+    if message.channel.id == channel.id: # checking if it's the same channel
+        if message.author == bot.user: #checking if it's sent by the bot
+            if user != bot.user:
+                if reaction.emoji.name in classe_list: #checking the emoji
+                    id = message.interaction.id
+                    test_full = add_player_dj(id,user.id,reaction.emoji.name)
+                    text = construction_message(id)
+                    await message.edit(content=text)
+    if test_full:
+        liste = message.mentions
+        await message.clear_reactions()
+        liste_mention = []
+        for joueur in liste:
+            liste_mention.append(bot.get_user(joueur.id).mention)
+        delete_dj(id)
+        await message.reply(f"{','.join(liste_mention)} votre donjon est prêt !")
+    
+@bot.event
+async def on_reaction_remove(reaction, user): #Vishaa tu casses les couilles, même si tu as raison
     message = reaction.message
     channel = discord.utils.get(message.guild.channels, name="commande-bot") #our channel
     if message.channel.id == channel.id: # checking if it's the same channel
         if message.author == bot.user: #checking if it's sent by the bot
             if user != bot.user:
                 if reaction.emoji.name in classe_list: #checking the emoji
-                    await message.edit(content = f"{message.content}\n- {user.mention}: {str.capitalize(reaction.emoji.name)}")
-                    
-    nb_reactions =0
-    for r in message.reactions:
-        nb_reactions+= r.count
-    if nb_reactions >= 23:
-        liste = message.mentions
-        await message.clear_reactions()
-        await message.edit(content = f"{message.content}\nGroupe au complet!")
-        liste_mention = []
-        for joueur in liste:
-            liste_mention.append(bot.get_user(joueur.id).mention)
-        await message.reply(f"{','.join(liste_mention)} votre donjon est prêt !")
+                    id = message.interaction.id
+                    remove_player_dj(id,user.id)
+                    text = construction_message(id)
+                    await message.edit(content=text)
 
 @bot.event
 async def on_ready():
