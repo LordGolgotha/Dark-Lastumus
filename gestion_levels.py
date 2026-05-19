@@ -6,6 +6,7 @@ from datetime import datetime
 dbname = get_database('Level')
 collection_opti = dbname["opti"]
 collection_low_cost = dbname["low_cost"]
+collection_donjon = dbname["donjon"]
 
 def set_opti(pseudo,classe,levels : set):
     collection = collection_opti
@@ -115,6 +116,42 @@ def convert_date(date: str,utc: int):
     timestamp = int(dt.timestamp()) + utc*3600
     return "<t:"+ str(timestamp) + ":f>"
 
+def create_dj(id: int,dj: str,date:str,statis: int,créateur:str,classe:str,nb_joueur:int,besoin: str):
+    print(f"creation du donjon: {id}")
+    donjon = {
+            "_id" : id,
+            "donjon" : dj,
+            "statis" : statis,
+            "date" : date,
+            "joueurs" : [(créateur,classe)],
+            "besoin" : besoin,
+            "nb_joueur": nb_joueur
+        }
+    collection_donjon.insert_one(donjon)
+
+def add_player_dj(id: int, joueur: str, classe: str):
+    print(f"Changement du donjon: {id}")
+    donjon = collection_donjon.find_one({'_id' : int(id)})
+    joueurs = donjon['joueurs']
+    joueurs.append((joueur,classe))
+    collection_donjon.update_one({"_id" : id}, {'$set': {"joueurs" : joueurs}})
+    if len(joueurs) == donjon['nb_joueur']:
+        return True
+    return False
+
+def remove_player_dj(id: int, joueur: str):
+    donjon = collection_donjon.find_one({'_id' : int(id)})
+    joueurs = donjon['joueurs']
+    for j in joueurs:
+        if joueur == j[0]:
+            joueurs.remove(j)
+    collection_donjon.update_one({"_id" : id}, {'$set': {"joueurs" : joueurs}})
+
+def get_dj_info(id):
+    return collection_donjon.find_one({'_id' : int(id)})
+
+def delete_dj(id):
+    collection_donjon.delete_one({"_id": int(id)})
 
 if __name__ == "__main__":
     pass
