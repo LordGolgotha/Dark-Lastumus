@@ -193,9 +193,11 @@ def dj_generique(ctx, donjon, statis, classe, date ="",besoin =""):
 
 def construction_message(id):
     info_dj = get_dj_info(id)
-    text = f"Donjon **{info_dj['donjon']}** modulé au niveau de statis **S{info_dj['statis']}** le {info_dj['date']}"
+    text = f"Donjon **{info_dj['donjon']}** modulé au niveau de statis **S{info_dj['statis']}**"
+    if info_dj['date'] != "":
+        text += f"le {info_dj['date']}"
     if info_dj['besoin'] != "":
-        text += f"\n{info_dj['besoin']}"
+        text += f"\n __**Info**__ : {info_dj['besoin']}"
     for j in info_dj['joueurs']:
         text += f"\n- {bot.get_user(j[0]).mention}: {str.capitalize(j[1])}"
     return text
