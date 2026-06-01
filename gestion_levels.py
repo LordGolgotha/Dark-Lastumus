@@ -116,7 +116,7 @@ def convert_date(date: str,utc: int):
     timestamp = int(dt.timestamp()) + utc*3600
     return "<t:"+ str(timestamp) + ":f>"
 
-def create_dj(id: int,dj: str,date:str,statis: int,créateur:str,classe:str,nb_joueur:int,besoin: str):
+def create_dj(id: int,dj: str,date:str,statis: int,créateur:str,classe:str,nb_joueur:int,info: str):
     print(f"creation du donjon: {id}")
     donjon = {
             "_id" : id,
@@ -124,7 +124,7 @@ def create_dj(id: int,dj: str,date:str,statis: int,créateur:str,classe:str,nb_j
             "statis" : statis,
             "date" : date,
             "joueurs" : [(créateur,classe)],
-            "besoin" : besoin,
+            "info" : info,
             "nb_joueur": nb_joueur
         }
     collection_donjon.insert_one(donjon)
