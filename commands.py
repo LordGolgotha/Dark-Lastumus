@@ -145,7 +145,7 @@ async def getstuffer(ctx: discord.context_managers,levels : list_levels):
 async def bonjour(ctx: discord.context_managers):
     await ctx.send(f"Bonsoir c'est moi Lastumus, je déteste les péruches, le hockey et ma soeur. Par contre j'adore les Tacos!")
 
-@bot.event
+"""@bot.event
 async def on_reaction_add(reaction, user):
     message = reaction.message
     channel = discord.utils.get(message.guild.channels, name="commande-bot") #our channel
@@ -179,7 +179,7 @@ async def on_reaction_remove(reaction, user): #Vishaa tu casses les couilles, m�
                     id = message.interaction.id
                     remove_player_dj(id,user.id)
                     text = construction_message(id)
-                    await message.edit(content=text)
+                    await message.edit(content=text)"""
 
 @bot.event
 async def on_ready():
