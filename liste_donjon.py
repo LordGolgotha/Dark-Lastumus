@@ -1,5 +1,48 @@
 from typing import Literal
 
+list_levels = Literal[20,35,50,65,80,95,110,125,140,155,170,185,200,215,230,245]
+
+emoji_list = [
+    '<:osamodas:1483790487356706868>',
+    '<:enutrof:1483790486023176372>',
+    '<:sram:1483790484542459955>',
+    '<:xelor:1483790482793562112>',
+    '<:ecaflip:1483790481367236608>',
+    '<:eniripsa:1483790480054419537>',
+    '<:iop:1483790477986627615>',
+    '<:cra:1483790476959289434>',
+    '<:sadida:1483790475638083784>',
+    '<:sacrieur:1483790474363011152>',
+    '<:pandawa:1483790472286572614>',
+    '<:roublard:1483790471154368533>',
+    '<:zobal:1483790469291966526>',
+    '<:ouginak:1483790467639410698>',
+    '<:steamer:1483790466230255646>',
+    '<:eliotrope:1483790464573505589>',
+    '<:huppermage:1483790462593794190>',
+    '<:feca:1483790196263620669>'
+]
+classe_list = [
+    'osamodas',
+    'enutrof',
+    'sram',
+    'xelor',
+    'ecaflip',
+    'eniripsa',
+    'iop',
+    'cra',
+    'sadida',
+    'sacrieur',
+    'pandawa',
+    'roublard',
+    'zobal',
+    'ouginak',
+    'steamer',
+    'eliotrope',
+    'huppermage',
+    'feca'
+]
+
 liste_donjon_20 = Literal[
     "Pâturages Des Bouftous",
     "Le Tofulailler",

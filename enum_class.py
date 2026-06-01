@@ -1,6 +1,5 @@
 import enum
 
-
 class Classe(enum.Enum):
     Huppermage = "Huppermage <:huppermage:1483790462593794190>"
     Ouginak = "Ouginak <:ouginak:1483790467639410698>"
