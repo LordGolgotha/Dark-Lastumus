@@ -116,24 +116,24 @@ def convert_date(date: str,utc: int):
     timestamp = int(dt.timestamp()) + utc*3600
     return "<t:"+ str(timestamp) + ":f>"
 
-def create_dj(id: int,dj: str,date:str,stasis: int,créateur:str,classe:str,nb_joueur:int,info: str):
+def create_dj(id: int,dj: str,date:str,stasis: int,créateur_id:str,classe:str,nb_joueur:int,info: str):
     print(f"creation du donjon: {id}")
     donjon = {
             "_id" : id,
             "donjon" : dj,
             "stasis" : stasis,
             "date" : date,
-            "joueurs" : [(créateur,classe)],
+            "joueurs" : [(créateur_id,classe)],
             "info" : info,
             "nb_joueur": nb_joueur
         }
     collection_donjon.insert_one(donjon)
 
-def add_player_dj(id: int, joueur: str, classe: str):
+def add_player_dj(id: int, joueur_id: str, classe: str):
     print(f"Changement du donjon: {id}")
     donjon = collection_donjon.find_one({'_id' : int(id)})
     joueurs = donjon['joueurs']
-    joueurs.append((joueur,classe))
+    joueurs.append((joueur_id,classe))
     collection_donjon.update_one({"_id" : id}, {'$set': {"joueurs" : joueurs}})
     if len(joueurs) == donjon['nb_joueur']:
         return True

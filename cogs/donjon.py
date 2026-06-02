@@ -6,28 +6,11 @@ from liste_donjon import *
 from enum_class import Classe
 from ClasseButton import ClassButton
 from gestion_levels import create_dj, get_dj_info
-
-async def modif_message(ctx,msgID, contenu):
-        print(f"msgID: {msgID.id}")
-        message = await ctx.fetch_message(msgID.id)
-        print(f"message: {message}")
-        print(f"message id: {message.id}")
-        await message.edit(content=contenu)
+from gestion_message import *
 
 class DonjonCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
-    def construction_message(self,id):
-        info_dj = get_dj_info(id)
-        text = f"Donjon **{info_dj['donjon']}** modulé au niveau de stasis **S{info_dj['stasis']}**"
-        if info_dj['date'] != "":
-            text += f"le {info_dj['date']}"
-        if info_dj['info'] != "":
-            text += f"\n __**Info**__ : {info_dj['info']}"
-        for j in info_dj['joueurs']:
-            text += f"\n- {self.bot.get_user(j[0]).mention}: {str.capitalize(j[1])}"
-        return text
 
     def dj_generique(self, id, ctx, donjon, stasis, classe, date ="",info =""):
         id_message = id
@@ -35,8 +18,8 @@ class DonjonCog(commands.Cog):
         nb_joueur = 6
         print(f"author id: {ctx.message.author.id}")
         create_dj(id_message,donjon,date,stasis,ctx.message.author.id,classe,nb_joueur,info)
-        contenu = self.construction_message(id_message)
-        return contenu
+        contenu, nb_joueur = construction_message(self.bot, id_message)
+        return contenu, nb_joueur
 
     @commands.hybrid_command(
         description="Organiser un groupe de donjon lvl 20"
@@ -52,9 +35,9 @@ class DonjonCog(commands.Cog):
                 classe : Classe,
                 date="",
                 info = ""):
-        interaction_dj = await ctx.send("test",view = ClassButton())
-        contenu = self.dj_generique(id=interaction_dj.id,ctx=ctx,donjon=donjon,stasis=stasis,classe=classe.name,date=date,info=info)
-        await modif_message(ctx,interaction_dj, contenu)
+        interaction_dj = await ctx.send("Création de votre donjon, veuillez patientez...",view = ClassButton(self.bot))
+        contenu, nb_joueur = self.dj_generique(id=interaction_dj.id,ctx=ctx,donjon=donjon,stasis=stasis,classe=classe.name,date=date,info=info)
+        await modif_message(interaction_dj, contenu, nb_joueur, self.bot)
 
     @app_commands.describe(donjon='Le donjon en question',
                         classe='La classe que vous comptez jouer',
@@ -71,7 +54,7 @@ class DonjonCog(commands.Cog):
                 date="",
                 info = ""):
         contenu = self.dj_generique_i(interaction,donjon,stasis,classe.name,date,info)
-        await new_message(interaction, contenu)
+        await modif_message(interaction, contenu)
 
     @commands.command
     async def ping(self,interact : discord.Interaction):
