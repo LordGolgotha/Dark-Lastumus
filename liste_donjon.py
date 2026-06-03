@@ -215,3 +215,23 @@ liste_donjon_245 = Literal[
     "Coeur de l'horloge de Nox",
     "Tournée 245"
 ]
+
+
+donjon_level_map = {
+    20: liste_donjon_20,
+    35: liste_donjon_35,
+    50: liste_donjon_50,
+    65: liste_donjon_65,
+    80: liste_donjon_80,
+    95: liste_donjon_95,
+    110: liste_donjon_110,
+    125: liste_donjon_125,
+    140: liste_donjon_140,
+    155: liste_donjon_155,
+    170: liste_donjon_170,
+    185: liste_donjon_185,
+    200: liste_donjon_200,
+    215: liste_donjon_215,
+    230: liste_donjon_230,
+    245: liste_donjon_245,
+}

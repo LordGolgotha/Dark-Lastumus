@@ -116,14 +116,14 @@ def convert_date(date: str,utc: int):
     timestamp = int(dt.timestamp()) + utc*3600
     return "<t:"+ str(timestamp) + ":f>"
 
-def create_dj(id: int,dj: str,date:str,stasis: int,créateur_id:str,classe:str,nb_joueur:int,info: str):
+def create_dj(id: int,dj: str,date:str,stasis: int,nb_joueur:int,info: str):
     print(f"creation du donjon: {id}")
     donjon = {
             "_id" : id,
             "donjon" : dj,
             "stasis" : stasis,
             "date" : date,
-            "joueurs" : [(créateur_id,classe)],
+            "joueurs" : [],
             "info" : info,
             "nb_joueur": nb_joueur
         }
