@@ -14,7 +14,7 @@ class ClassButton(discord.ui.View):
         button = discord.ui.Button(style=discord.ButtonStyle.gray, emoji=emoji)
         async def callback(interaction: discord.Interaction):
             predicat = await self.gestion_interaction_generique(interaction, classe)
-            button.style = discord.ButtonStyle.red if predicat else discord.ButtonStyle.gray
+            button.style = discord.ButtonStyle.blurple if predicat else discord.ButtonStyle.gray
             await interaction.response.edit_message(view=self)
         button.callback = callback
         self.add_item(button)
