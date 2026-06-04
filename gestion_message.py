@@ -9,7 +9,7 @@ async def modif_message(message, contenu, nb_joueur,bot):
                 liste_mention.append(bot.get_user(joueur.id).mention)
             delete_dj(message.id)
             await message.reply(f"{','.join(liste_mention)} votre donjon est prêt !")
-            time.sleep(1)
+            time.sleep(2.5)
             await message.edit(content=contenu,view=None)
         else:
              await message.edit(content=contenu)
