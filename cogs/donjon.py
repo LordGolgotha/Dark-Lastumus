@@ -45,5 +45,13 @@ class DonjonCog(commands.Cog):
 
         self.bot.add_command(callback)
 
+    @commands.Cog.listener()
+    async def on_ready(self):
+        try:
+            sync = await self.bot.tree.sync()
+            print(f"{len(sync)} commande chargé")
+        except Exception as e:
+            print(e)
+
 async def setup(bot):
     await bot.add_cog(DonjonCog(bot))   
