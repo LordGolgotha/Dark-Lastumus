@@ -2,7 +2,7 @@ import discord
 from dotenv import load_dotenv
 from discord.ext import commands
 import os
-
+from keep_alive import keep_alive
 
 load_dotenv()
 
@@ -18,5 +18,5 @@ class DarkLastumus(commands.Bot):
 intents = discord.Intents.all()
 bot = DarkLastumus(command_prefix='!', intents=intents)
 
-
+keep_alive()
 bot.run(token=token)
