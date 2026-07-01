@@ -4,14 +4,21 @@ from gestion_levels import add_player_dj, remove_player_dj,get_dj_info
 from gestion_message import *
 
 class ClassButton(discord.ui.View):
-    def __init__(self, bot):
-        super().__init__()
+    def __init__(self, bot, link= "http://www.google.fr"):
+        super().__init__(timeout=None)
         self.bot = bot
-        for emoji, classe in zip(emoji_list, classe_list):
-            self._add_class_button(emoji, classe)
-
-    def _add_class_button(self, emoji, classe):
-        button = discord.ui.Button(style=discord.ButtonStyle.gray, emoji=emoji)
+        
+        for n, (emoji, classe) in enumerate(zip(emoji_list, classe_list)):
+            name = f"Button-{n}"
+            row =  n // 5
+            self._add_class_button(emoji, classe, name, row)
+        self.add_item(discord.ui.Button(style=discord.ButtonStyle.url,label="Guide du dj",url=link, row=4))
+        self.add_item(discord.ui.Button(style=discord.ButtonStyle.red,label="DPT", row=4))
+        self.add_item(discord.ui.Button(style=discord.ButtonStyle.green,label="TANK", row=4))
+        self.add_item(discord.ui.Button(style=discord.ButtonStyle.blurple,label="SUPPORT", row=4))
+            
+    def _add_class_button(self, emoji, classe, name, row):
+        button = discord.ui.Button(style=discord.ButtonStyle.gray, emoji=emoji, custom_id=name, row=row)
         async def callback(interaction: discord.Interaction):
             predicat = await self.gestion_interaction_generique(interaction, classe)
             button.style = discord.ButtonStyle.blurple if predicat else discord.ButtonStyle.gray
