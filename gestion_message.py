@@ -12,13 +12,13 @@ async def modif_message(message, contenu, nb_joueur,bot):
             time.sleep(2.5)
             await message.edit(content=contenu,view=None)
         else:
-             await message.edit(content=contenu)
+            await message.edit(content=contenu)
 
 def construction_message(bot,id):
         info_dj = get_dj_info(id)
         text = f"Donjon **{info_dj['donjon']}** modulé au niveau de stasis **S{info_dj['stasis']}**"
         if info_dj['date'] != "":
-            text += f"le {info_dj['date']}"
+            text += f" le {info_dj['date']}"
         if info_dj['info'] != "":
             text += f"\n __**Info**__ : {info_dj['info']}"
         if len(info_dj['joueurs']) < 6:
