@@ -1,4 +1,4 @@
-from gestion_levels import get_dj_info, delete_dj
+from gestion_levels import get_dj_info, delete_dj, get_compo
 import time
 
 async def modif_message(message, contenu, nb_joueur,bot):
@@ -22,7 +22,7 @@ def construction_message(bot,id):
         if info_dj['info'] != "":
             text += f"\n __**Info**__ : {info_dj['info']}"
         if len(info_dj['joueurs']) < 6:
-             text += f"\nChoisissez votre classe"
+             text += f"\nChoisissez votre classe :"
         for j in info_dj['joueurs']:
-            text += f"\n- {bot.get_user(j[0]).mention}: {str.capitalize(j[1])}"
+            text += f"\n- {bot.get_user(j[0]).mention}: {str.capitalize(j[1])} {get_compo(id,j[0])}"
         return text, len(info_dj['joueurs'])

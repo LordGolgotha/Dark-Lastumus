@@ -125,7 +125,8 @@ def create_dj(id: int,dj: str,date:str,stasis: int,nb_joueur:int,info: str):
             "date" : date,
             "joueurs" : [],
             "info" : info,
-            "nb_joueur": nb_joueur
+            "nb_joueur": nb_joueur,
+            "compo": dict()
         }
     collection_donjon.insert_one(donjon)
 
@@ -138,6 +139,18 @@ def add_player_dj(id: int, joueur_id: str, classe: str):
     if len(joueurs) == donjon['nb_joueur']:
         return True
     return False
+
+def modif_compo(id: int, joueur_id: str, new_role: str):
+    donjon = collection_donjon.find_one({'_id': int(id)})
+    dictio = dict(donjon['compo'])
+    dictio[str(joueur_id)]= new_role
+    collection_donjon.update_one({'_id': id}, {'$set' : {"compo" : dictio}})
+
+def get_compo(id,player):
+    try:
+        return collection_donjon.find_one({'_id': id})['compo'][str(player)]
+    except:
+        return ""
 
 def remove_player_dj(id: int, joueur: str):
     donjon = collection_donjon.find_one({'_id' : int(id)})
