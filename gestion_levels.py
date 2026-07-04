@@ -147,9 +147,10 @@ def modif_compo(id: int, joueur_id: str, new_role: str):
     collection_donjon.update_one({'_id': id}, {'$set' : {"compo" : dictio}})
 
 def get_compo(id,player):
-    try:
-        return collection_donjon.find_one({'_id': id})['compo'][str(player)]
-    except:
+    compo = collection_donjon.find_one({'_id': id})['compo']
+    if str(player) in compo:
+        return compo.get(str(player))
+    else:
         return ""
 
 def remove_player_dj(id: int, joueur: str):
