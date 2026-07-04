@@ -17,7 +17,7 @@ class DonjonCog(commands.Cog):
     def dj_generique(self, id, ctx, donjon, stasis, date ="",info =""):
         id_message = id
         print(f"author id: {ctx.message.author.id}")
-        nb_joueur = donjon_nb_joueur_map[donjon]
+        nb_joueur = donjon_nb_joueur_map.get(donjon)
         create_dj(id_message,donjon,date,stasis,nb_joueur,info)
         contenu, nb_joueur = construction_message(self.bot, id_message)
         return contenu, nb_joueur
@@ -39,9 +39,9 @@ class DonjonCog(commands.Cog):
         )
         async def callback(ctx: discord.context_managers, donjon: donjon_level, stasis: Literal[1,2,3,4,5,6,7,8,9,10], date="", info=""): # type: ignore
             link = donjon_link_map.get(donjon, "")
-            interaction_dj = await ctx.send("Création de votre donjon, veuillez patientez...", view=ClassButton(bot, link=link))
+            interaction_dj = await ctx.send("Création de votre donjon, veuillez patientez...", view=ClassButton(bot,donjon_nb_joueur_map.get(donjon), link=link))
             contenu, nb_joueur = dj_generique(id=interaction_dj.id, ctx=ctx, donjon=donjon, stasis=stasis, date=date, info=info)
-            await modif_message(interaction_dj, contenu, nb_joueur, bot)
+            await modif_message(interaction_dj, contenu, nb_joueur,donjon_nb_joueur_map.get(donjon), bot)
 
         self.bot.add_command(callback)
 

@@ -1,8 +1,8 @@
 from gestion_levels import get_dj_info, delete_dj, get_compo
 import time
 
-async def modif_message(message, contenu, nb_joueur,bot):
-        if nb_joueur >=6:
+async def modif_message(message, contenu, nb_joueur, nb_joueur_max,bot):
+        if nb_joueur >=nb_joueur_max:
             liste = message.mentions
             liste_mention = []
             for joueur in liste:
