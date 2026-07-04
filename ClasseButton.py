@@ -28,33 +28,22 @@ class ClassButton(discord.ui.View):
         self.add_item(button)
 
     def _add_sub_button(self,nb_joueur_max):
-        dpt = discord.ui.Button(style=discord.ButtonStyle.red,custom_id="dpt",label="DPT", row=4)
-        async def callback(interaction: discord.Interaction):
-            id_dj = interaction.message.id
-            player_id = interaction.user.id
-            modif_compo(id_dj,player_id,"<:dpt:1522301255043776552>")
-            contenu, nb_joueur = construction_message(self.bot,id_dj)
-            await modif_message(interaction.message,contenu,nb_joueur, nb_joueur_max,self.bot)
-        dpt.callback= callback
-        self.add_item(dpt)
-        tank = discord.ui.Button(style=discord.ButtonStyle.green,custom_id="tank",label="TANK", row=4)
-        async def callback(interaction: discord.Interaction):
-            id_dj = interaction.message.id
-            player_id = interaction.user.id
-            modif_compo(id_dj,player_id,"<:tank:1522298751631364248>")
-            contenu, nb_joueur = construction_message(self.bot,id_dj)
-            await modif_message(interaction.message,contenu,nb_joueur,nb_joueur_max,self.bot)
-        tank.callback= callback
-        self.add_item(tank)
-        support = discord.ui.Button(style=discord.ButtonStyle.blurple, custom_id="support",label="SUPPORT", row=4)
-        async def callback(interaction: discord.Interaction):
-            id_dj = interaction.message.id
-            player_id = interaction.user.id
-            modif_compo(id_dj,player_id,"<:Armor_soin:1521639697657499890>")
-            contenu, nb_joueur = construction_message(self.bot,id_dj)
-            await modif_message(interaction.message,contenu,nb_joueur,nb_joueur_max,self.bot)
-        support.callback= callback
-        self.add_item(support)
+        buttons_data = [
+            ("dpt", "DPT", discord.ButtonStyle.red, "<:dpt:1522301255043776552>"),
+            ("tank", "TANK", discord.ButtonStyle.green, "<:tank:1522298751631364248>"),
+            ("support", "SUPPORT", discord.ButtonStyle.blurple, "<:Armor_soin:1521639697657499890>"),
+        ]
+        for custom_id, label, style, emoji in buttons_data:
+            button = discord.ui.Button(style=style, custom_id=custom_id, label=label, row=4)
+            async def callback(interaction: discord.Interaction, _emoji=emoji):
+                await interaction.response.defer()
+                id_dj = interaction.message.id
+                player_id = interaction.user.id
+                modif_compo(id_dj, player_id, _emoji)
+                contenu, nb_joueur = construction_message(self.bot, id_dj)
+                await modif_message(interaction.message, contenu, nb_joueur, nb_joueur_max, self.bot)
+            button.callback = callback
+            self.add_item(button)
 
     async def gestion_interaction_generique(self, interaction,classe,nb_joueur_max):
         id_dj = interaction.message.id
