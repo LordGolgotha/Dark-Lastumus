@@ -39,7 +39,7 @@ class DonjonCog(commands.Cog):
         )
         async def callback(ctx: discord.context_managers, donjon: donjon_level, stasis: Literal[1,2,3,4,5,6,7,8,9,10], date="", info=""): # type: ignore
             link = donjon_link_map.get(donjon, "")
-            channel = bot.get_channel(1523963923588714526)
+            channel = discord.utils.get(bot.get_all_channels(), name="activité")
             interaction_dj = await channel.send("Création de votre donjon, veuillez patientez...", view=ClassButton(bot,donjon_nb_joueur_map.get(donjon), link=link))
             await interaction_dj.create_thread(name=f"Donjon {donjon} stasis {stasis} lvl {level}")
             contenu = dj_generique(id=interaction_dj.id, donjon=donjon, stasis=stasis, date=date, info=info)
