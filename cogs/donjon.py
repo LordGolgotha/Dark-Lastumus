@@ -3,7 +3,7 @@ from discord.ext import commands
 from discord import app_commands
 from liste_donjon import *
 from ClasseButton import ClassButton
-from gestion_levels import create_dj
+from gestion_levels import create_dj, convert_date
 from gestion_message import *
 
 MAX_LEVEL = 245
@@ -17,7 +17,8 @@ class DonjonCog(commands.Cog):
     def dj_generique(self, id, donjon, stasis, date ="",info =""):
         id_message = id
         nb_joueur = donjon_nb_joueur_map.get(donjon)
-        create_dj(id_message,donjon,date,stasis,nb_joueur,info)
+        t_date = convert_date(date)
+        create_dj(id_message,donjon,t_date,stasis,nb_joueur,info)
         contenu = construction_message(self.bot, id_message)
         return contenu
 

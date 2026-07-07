@@ -5,8 +5,10 @@ def construction_message(bot,id):
         info_dj = get_dj_info(id)
         text = f"Donjon **{info_dj['donjon']}** modulé au niveau de stasis **S{info_dj['stasis']}**"
         nb_joueur = len(info_dj['joueurs'])
-        if info_dj['date'] != "":
-            text += f" le {info_dj['date']}"
+        if info_dj['date'] == "invalid":
+            text += f"date invalide"
+        elif info_dj['date'] != "":
+            text += f" le <t:{info_dj['date']}:f> <t:{info_dj['date']}:R>"
         if info_dj['info'] != "":
             text += f"\n __**Info**__ : {info_dj['info']}"
         text += f"\nChoisissez votre classe :"\

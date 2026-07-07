@@ -111,10 +111,14 @@ def del_level(pseudo,classe,level:int,collection):
     collection.update_one({"_id" : pseudo}, {'$set': {"levels" : new_dict_player}})
     print(f"Suppression du level {level} pour la classe {classe} de {pseudo}")
     
-def convert_date(date: str,utc: int):
-    dt = datetime.strptime(date, "%d/%m/%Y %H:%M")
-    timestamp = int(dt.timestamp()) + utc*3600
-    return "<t:"+ str(timestamp) + ":f>"
+def convert_date(date: str,utc: int = 0):
+    try:
+        dt = datetime.strptime(date, "%d/%m/%Y %H:%M") 
+        timestamp = int(dt.timestamp()) + utc*3600
+    except ValueError:
+        print(f"Date invalide: {date}")
+        return "invalid"
+    return str(timestamp)
 
 def create_dj(id: int,dj: str,date:str,stasis: int,nb_joueur:int,info: str):
     print(f"creation du donjon: {id}")
