@@ -14,13 +14,12 @@ class DonjonCog(commands.Cog):
         for level in range(20,MAX_LEVEL+1,15):
             self._add_dj_command(level)
 
-    def dj_generique(self, id, ctx, donjon, stasis, date ="",info =""):
+    def dj_generique(self, id, donjon, stasis, date ="",info =""):
         id_message = id
-        print(f"author id: {ctx.message.author.id}")
         nb_joueur = donjon_nb_joueur_map.get(donjon)
         create_dj(id_message,donjon,date,stasis,nb_joueur,info)
-        contenu, nb_joueur = construction_message(self.bot, id_message)
-        return contenu, nb_joueur
+        contenu = construction_message(self.bot, id_message)
+        return contenu
 
     def _add_dj_command(self, level):
         donjon_level = donjon_level_map[level]
@@ -39,9 +38,12 @@ class DonjonCog(commands.Cog):
         )
         async def callback(ctx: discord.context_managers, donjon: donjon_level, stasis: Literal[1,2,3,4,5,6,7,8,9,10], date="", info=""): # type: ignore
             link = donjon_link_map.get(donjon, "")
-            interaction_dj = await ctx.send("Création de votre donjon, veuillez patientez...", view=ClassButton(bot,donjon_nb_joueur_map.get(donjon), link=link))
-            contenu, nb_joueur = dj_generique(id=interaction_dj.id, ctx=ctx, donjon=donjon, stasis=stasis, date=date, info=info)
-            await modif_message(interaction_dj, contenu, nb_joueur,donjon_nb_joueur_map.get(donjon), bot)
+            channel = bot.get_channel(1523963923588714526)
+            interaction_dj = await channel.send("Création de votre donjon, veuillez patientez...", view=ClassButton(bot,donjon_nb_joueur_map.get(donjon), link=link))
+            await interaction_dj.create_thread(name=f"Donjon {donjon} stasis {stasis} lvl {level}")
+            contenu = dj_generique(id=interaction_dj.id, donjon=donjon, stasis=stasis, date=date, info=info)
+            await ctx.send(f"Votre donjon a été créé avec succès! [Ici]({interaction_dj.jump_url})")
+            await interaction_dj.edit(content=contenu)
 
         self.bot.add_command(callback)
 

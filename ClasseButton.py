@@ -40,8 +40,8 @@ class ClassButton(discord.ui.View):
                 id_dj = interaction.message.id
                 player_id = interaction.user.id
                 modif_compo(id_dj, player_id, _emoji)
-                contenu, nb_joueur = construction_message(self.bot, id_dj)
-                await modif_message(interaction.message, contenu, nb_joueur, nb_joueur_max, self.bot)
+                contenu = construction_message(self.bot, id_dj)
+                await interaction.message.edit(content=contenu, view=self)
             button.callback = callback
             self.add_item(button)
 
@@ -55,6 +55,6 @@ class ClassButton(discord.ui.View):
         else:
             add_player_dj(id_dj,player_id,classe)
             result = True
-        contenu, nb_joueur = construction_message(self.bot,id_dj)
-        await modif_message(interaction.message,contenu,nb_joueur,nb_joueur_max,self.bot)
+        contenu = construction_message(self.bot,id_dj)
+        await interaction.message.edit(content=contenu, view=self)
         return result
