@@ -11,8 +11,9 @@ def construction_message(bot,id):
             text += f" le <t:{info_dj['date']}:f> <t:{info_dj['date']}:R>"
         if info_dj['info'] != "":
             text += f"\n __**Info**__ : {info_dj['info']}"
-        text += f"\nChoisissez votre classe :"\
-                f"\n**{nb_joueur}/{info_dj['nb_joueur']} joueurs**"
+        color = "33m" if nb_joueur != 6 else "32m"
+        text += f"\nChoisissez votre classe :"
+        text += f"\n```ansi\n\u001b[1;{color}{nb_joueur}/{info_dj['nb_joueur']} joueurs\u001b[0m\n```"
         for j in info_dj['joueurs']:
             text += f"\n- {bot.get_user(j[0]).mention}: {str.capitalize(j[1])} {get_compo(id,j[0])}"
         return text
