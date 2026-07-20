@@ -127,7 +127,7 @@ def create_dj(id: int,dj: str,date:str,stasis: int,nb_joueur:int,info: str):
             "donjon" : dj,
             "stasis" : stasis,
             "date" : date,
-            "joueurs" : [],
+            "joueurs" : dict(),
             "info" : info,
             "nb_joueur": nb_joueur,
             "compo": dict()
@@ -137,12 +137,19 @@ def create_dj(id: int,dj: str,date:str,stasis: int,nb_joueur:int,info: str):
 def add_player_dj(id: int, joueur_id: str, classe: str):
     print(f"Changement du donjon: {id}")
     donjon = collection_donjon.find_one({'_id' : int(id)})
-    joueurs = donjon['joueurs']
-    joueurs.append((joueur_id,classe))
-    collection_donjon.update_one({"_id" : id}, {'$set': {"joueurs" : joueurs}})
-    if len(joueurs) == donjon['nb_joueur']:
+    joueurs_dict = dict(donjon['joueurs'])
+    joueurs_dict[str(joueur_id)] = classe
+    collection_donjon.update_one({"_id" : id}, {'$set': {"joueurs" : joueurs_dict}})
+    if len(joueurs_dict) == donjon['nb_joueur']:
         return True
     return False
+
+def remove_player_dj(id: int, joueur: str):
+    donjon = collection_donjon.find_one({'_id' : int(id)})
+    joueurs_dict = dict(donjon['joueurs'])
+    if str(joueur) in joueurs_dict:
+        del joueurs_dict[str(joueur)]
+    collection_donjon.update_one({"_id" : id}, {'$set': {"joueurs" : joueurs_dict}})
 
 def modif_compo(id: int, joueur_id: str, new_role: str):
     donjon = collection_donjon.find_one({'_id': int(id)})
@@ -156,14 +163,6 @@ def get_compo(id,player):
         return compo.get(str(player))
     else:
         return ""
-
-def remove_player_dj(id: int, joueur: str):
-    donjon = collection_donjon.find_one({'_id' : int(id)})
-    joueurs = donjon['joueurs']
-    for j in joueurs:
-        if joueur == j[0]:
-            joueurs.remove(j)
-    collection_donjon.update_one({"_id" : id}, {'$set': {"joueurs" : joueurs}})
 
 def get_dj_info(id):
     return collection_donjon.find_one({'_id' : int(id)})

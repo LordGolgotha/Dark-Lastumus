@@ -4,6 +4,11 @@ from gestion_levels import add_player_dj, remove_player_dj,get_dj_info, modif_co
 from gestion_message import *
 
 class ClassButton(discord.ui.View):
+    """
+    A view that creates buttons for selecting classes in a dungeon group.
+    nb_joueur_max: The maximum number of players allowed in the dungeon group.
+    link: A URL link to the dungeon guide. If no guide avbailable, the link can be an empty string ans the button will be disabled.
+    """
     def __init__(self, bot, nb_joueur_max,link= "http://www.google.fr"):
         super().__init__(timeout=None)
         self.bot = bot
@@ -50,8 +55,11 @@ class ClassButton(discord.ui.View):
         player_id = interaction.user.id
         joueurs = get_dj_info(id_dj)['joueurs']
         result = False
-        if [player_id,classe] in joueurs:
+        if str(player_id) in joueurs:
             remove_player_dj(id_dj,player_id)
+            if joueurs[str(player_id)] != classe:
+                add_player_dj(id_dj,player_id,classe)
+                result = True
         else:
             add_player_dj(id_dj,player_id,classe)
             result = True
