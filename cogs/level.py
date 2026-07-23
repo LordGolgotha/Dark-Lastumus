@@ -5,7 +5,7 @@ from gestion_levels import get_opti, get_low_cost, get_stuffer, set_low_cost, se
 from enum_class import Classe
 from liste_donjon import list_levels
 
-
+#WIP
 class LevelCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -128,5 +128,10 @@ class LevelCog(commands.Cog):
         res = delimiter.join(list_player)
         await ctx.send(f"Joueur avec un stuff a la tranche {levels}:\n{res}")
 
+
 async def setup(bot):
-    await bot.add_cog(LevelCog(bot))   
+    pass
+    """
+    WIP PROJET TROP AMATEUR POUR LE MOMENT, A REVOIR PLUS TARD SI LE BOT EST UTILISE
+    await bot.add_cog(LevelCog(bot))
+    """
