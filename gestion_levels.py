@@ -1,6 +1,7 @@
 from pymongo_get_database import get_database
 
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 
 dbname = get_database('Level')
@@ -111,10 +112,11 @@ def del_level(pseudo,classe,level:int,collection):
     collection.update_one({"_id" : pseudo}, {'$set': {"levels" : new_dict_player}})
     print(f"Suppression du level {level} pour la classe {classe} de {pseudo}")
     
-def convert_date(date: str,utc: int = 0):
+def convert_date(date: str):
     try:
-        dt = datetime.strptime(date, "%d/%m/%Y %H:%M") 
-        timestamp = int(dt.timestamp()) + utc*3600
+        dt = datetime.strptime(date, "%d/%m/%Y %H:%M")
+        dt = dt.replace(tzinfo=ZoneInfo("Europe/Paris"))
+        timestamp = int(dt.timestamp())
     except ValueError:
         print(f"Date invalide: {date}")
         return "invalid"
