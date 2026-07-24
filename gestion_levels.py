@@ -113,6 +113,8 @@ def del_level(pseudo,classe,level:int,collection):
     print(f"Suppression du level {level} pour la classe {classe} de {pseudo}")
     
 def convert_date(date: str):
+    if date == "":
+        return ""
     try:
         dt = datetime.strptime(date, "%d/%m/%Y %H:%M")
         dt = dt.replace(tzinfo=ZoneInfo("Europe/Paris"))
