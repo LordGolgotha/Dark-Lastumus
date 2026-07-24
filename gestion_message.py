@@ -1,6 +1,10 @@
 from gestion_levels import get_dj_info, delete_dj, get_compo
 import time
 
+ROUGE = "31m"
+VERT = "32m"
+ORANGE = "33m"
+
 def construction_message(bot,id):
         info_dj = get_dj_info(id)
         text = f"Donjon **{info_dj['donjon']}** modulé **S{info_dj['stasis']}**"
@@ -18,11 +22,11 @@ def construction_message(bot,id):
         
         # Color coding based on the number of players
         if nb_joueur_max < nb_joueur < nb_joueur_mid+1:
-             color = "31m"
+             color = ORANGE
         elif nb_joueur == nb_joueur_max:
-            color = "32m"
+            color = VERT
         else:
-            color = "33m"
+            color = ROUGE
 
         # Display the number of players and their classes
         text += f"\nChoisissez votre classe :"
