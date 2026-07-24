@@ -31,9 +31,6 @@ def construction_message(bot,id):
         # Display the number of players and their classes
         text += f"\nChoisissez votre classe :"
         text += f"\n```ansi\n\u001b[1;{color}{nb_joueur}/{nb_joueur_max} joueurs\u001b[0m```"
-        print(info_dj['joueurs'])
         for j in info_dj['joueurs']:
-            print(f"Joueur: {j}, Classe: {info_dj['joueurs'][j]}, Compo: {get_compo(id,j)}")
-            print(f"bot.get_user(j): {bot.get_user(int(j))}")
             text += f"\n- {bot.get_user(int(j)).mention}: {str.capitalize(info_dj['joueurs'][j])} {get_compo(id,j)}"
         return text

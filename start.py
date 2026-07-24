@@ -13,7 +13,6 @@ class DarkLastumus(commands.Bot):
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
                 await self.load_extension(f'cogs.{filename[:-3]}')
-                print(f'Fichier {filename[:-3]} chargé')
 
 intents = discord.Intents.all()
 bot = DarkLastumus(command_prefix='!', intents=intents)

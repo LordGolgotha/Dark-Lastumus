@@ -75,7 +75,6 @@ class LevelCog(commands.Cog):
         help = "Mettez la tranche de niveau recherché pour obtenir tout les joueurs avec un stuff opti à ce niveau. Exemple /getopti 200"
         )
     async def getopti(self, ctx: discord.context_managers,levels : list_levels):
-        print(f"recherche joueur dans la tranche {levels}")
         await ctx.defer()
         dict_player = get_opti(int(levels))
         list_player = []
@@ -95,7 +94,6 @@ class LevelCog(commands.Cog):
         help = "Mettez la tranche de niveau recherché pour obtenir tout les joueurs avec un stuff low cost à ce niveau. Exemple /getlowcost 200"
         )
     async def getlowcost(self, ctx: discord.context_managers,levels : list_levels):
-        print(f"recherche joueur dans la tranche {levels}")
         await ctx.defer()
         dict_player = get_low_cost(int(levels))
         list_player = []
@@ -115,7 +113,6 @@ class LevelCog(commands.Cog):
         help = "Mettez la tranche de niveau recherché. Exemple /getstuffer 200"
         )
     async def getstuffer(self, ctx: discord.context_managers,levels : list_levels):
-        print(f"recherche joueur dans la tranche {levels}:")
         await ctx.defer()
         dict_player = get_stuffer(int(levels))
         list_player = []

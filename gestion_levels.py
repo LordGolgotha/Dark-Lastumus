@@ -18,7 +18,6 @@ def set_low_cost(pseudo,classe,levels : set):
     set_level(pseudo, classe, levels, collection)
 
 def set_level(pseudo,classe,levels : set,collection):
-    #print(f"Ajout des levels {levels} pour la classe {classe} de {pseudo}\n")
     player = collection.find_one({"_id" : pseudo})
     if player == None:
         player = {
@@ -30,9 +29,7 @@ def set_level(pseudo,classe,levels : set,collection):
         new_dict_player = dict()
         ret, new_dict_player = modif_list(classe, levels, player)
         if not ret:
-            print(f"La classe {classe} a été ajouté au joueur {pseudo} avec les levels: {levels}")
             new_dict_player[classe] = list(levels)
-        #print(f"Les anciennes données étaient: {ancienne_data} \n Les nouvelles données sont: {new_dict_player}\n")
         collection.update_one({"_id" : pseudo}, {'$set': {"levels" : new_dict_player}}, upsert= True)
 
 def modif_list(classe, levels, player):
@@ -56,9 +53,7 @@ def get_opti(level:int):
 
 def get_stuffer(level:int):
     low_cost = get_low_cost(level)
-    print(f"Les joueurs low cost {level} sont : {low_cost}")
     opti = get_opti(level)
-    print(f"Les joueurs opti {level} sont : {opti}")
     res = dict()
     keys = set(low_cost) | set(opti)
     for player in keys:
@@ -68,7 +63,6 @@ def get_stuffer(level:int):
             res[player] = opti[player]
         else:
             res[player] = low_cost[player]
-    print(f"Les joueurs stuffer sont {res}")
     return res
 
 def get_level(level:int, collection):
@@ -80,7 +74,6 @@ def get_level(level:int, collection):
             if predicat_opti_classe(level, player['levels'][classe]):
                 all_class_player.add(classe)
         if len(all_class_player) !=0:
-            #print(f"Le player {player['_id']} a au moins une classe opti au niveau {level}")
             res[player["_id"]] = list(all_class_player)
     return res
 
@@ -98,19 +91,16 @@ def del_low_cost(pseudo,classe,level: int):
 
 def del_level(pseudo,classe,level:int,collection):
     player = collection.find_one({"_id" : int(pseudo)})
-    print(f"{player} {type(pseudo)}")
     if player == None:
         return False
     else:
         new_dict_player = dict()
         for player_classe in player['levels']:
-            print(f"{player_classe} & {classe}")
             if classe in player_classe:
                 if int(level) in player['levels'][player_classe]:
                     player['levels'][player_classe].remove(int(level))
             new_dict_player[player_classe] = player['levels'][player_classe].copy()
     collection.update_one({"_id" : pseudo}, {'$set': {"levels" : new_dict_player}})
-    print(f"Suppression du level {level} pour la classe {classe} de {pseudo}")
     
 def convert_date(date: str):
     if date == "":
@@ -120,12 +110,10 @@ def convert_date(date: str):
         dt = dt.replace(tzinfo=ZoneInfo("Europe/Paris"))
         timestamp = int(dt.timestamp())
     except ValueError:
-        print(f"Date invalide: {date}")
         return "invalid"
     return str(timestamp)
 
 def create_dj(id: int,dj: str,date:str,stasis: int,nb_joueur:int,info: str):
-    print(f"creation du donjon: {id}")
     donjon = {
             "_id" : id,
             "donjon" : dj,
@@ -139,7 +127,6 @@ def create_dj(id: int,dj: str,date:str,stasis: int,nb_joueur:int,info: str):
     collection_donjon.insert_one(donjon)
 
 def add_player_dj(id: int, joueur_id: str, classe: str):
-    print(f"Changement du donjon: {id}")
     donjon = collection_donjon.find_one({'_id' : int(id)})
     joueurs_dict = dict(donjon['joueurs'])
     joueurs_dict[str(joueur_id)] = classe
