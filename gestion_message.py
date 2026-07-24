@@ -1,5 +1,5 @@
 from gestion_levels import get_dj_info, delete_dj, get_compo
-import time
+from liste_donjon import emoji_classe_map
 
 ROUGE = "31m"
 VERT = "32m"
@@ -32,5 +32,5 @@ def construction_message(bot,id):
         text += f"\nChoisissez votre classe :"
         text += f"\n```ansi\n\u001b[1;{color}{nb_joueur}/{nb_joueur_max} joueurs\u001b[0m```"
         for j in info_dj['joueurs']:
-            text += f"\n- {bot.get_user(int(j)).mention}: {str.capitalize(info_dj['joueurs'][j])} {get_compo(id,j)}"
+            text += f"\n- {bot.get_user(int(j)).mention}: {emoji_classe_map.get(info_dj['joueurs'][j])} {get_compo(id,j)}"
         return text

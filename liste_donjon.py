@@ -229,3 +229,7 @@ for level, data in donjons_data.items():
     for name, link, nb_j in data:
         donjon_link_map[name] = link
         donjon_nb_joueur_map[name] = nb_j
+
+emoji_classe_map = {}
+for i in range(len(classe_list)):
+    emoji_classe_map[classe_list[i]] = f"{emoji_list[i]} {classe_list[i]}"
