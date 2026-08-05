@@ -45,7 +45,7 @@ class TrollCog(commands.Cog):
 
     @commands.hybrid_command(description="Bonjour?")
     async def bonjour(self, ctx):
-        await ctx.send(f"Bonsoir c'est moi Lastumus, je déteste les péruches, le hockey et ma soeur. Par contre j'adore les Tacos!")
+        await ctx.send(f"Bonsoir c'est moi Lastumus, je déteste les péruches, le hockey et ma soeur. Par contre j'adore les Tacos et Ben-Chest!")
 
     @commands.hybrid_command(description="Ca me tacle?")
     async def ustre(self,ctx):
