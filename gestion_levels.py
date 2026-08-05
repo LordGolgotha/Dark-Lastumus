@@ -105,13 +105,23 @@ def del_level(pseudo,classe,level:int,collection):
 def convert_date(date: str):
     if date == "":
         return ""
-    try:
-        dt = datetime.strptime(date, "%d/%m/%Y %H:%M")
-        dt = dt.replace(tzinfo=ZoneInfo("Europe/Paris"))
-        timestamp = int(dt.timestamp())
-    except ValueError:
+    qc = False
+    if date.endswith("QC"):
+        date = date.replace(" QC","")
+        qc = True
+    for fmt in ["%d/%m/%Y %H:%M", "%d/%m/%Y %Hh%M", "%d/%m/%Y %H","%d/%m/%Y %Hh"]:
+        try:
+            dt = datetime.strptime(date, fmt)
+            break
+        except ValueError:
+            continue
+    else:
         return "invalid"
-    return str(timestamp)
+    if qc:
+        dt = dt.replace(tzinfo=ZoneInfo("America/Toronto"))
+    else:
+        dt = dt.replace(tzinfo=ZoneInfo("Europe/Paris"))
+    return str(int(dt.timestamp()))
 
 def create_dj(id: int,dj: str,date:str,stasis: int,nb_joueur:int,info: str):
     donjon = {
@@ -162,4 +172,13 @@ def delete_dj(id):
     collection_donjon.delete_one({"_id": int(id)})
 
 if __name__ == "__main__":
-    pass
+    print(convert_date("12/06/2026 14h QC"))
+    print(convert_date("12/06/2026 14h00 QC"))
+    print(convert_date("12/06/2026 14 QC"))
+    print(convert_date("12/06/2026 14:00 QC"))
+
+    
+    print(convert_date("12/06/2026 20h"))
+    print(convert_date("12/06/2026 20h00"))
+    print(convert_date("12/06/2026 20"))
+    print(convert_date("12/06/2026 20:00"))

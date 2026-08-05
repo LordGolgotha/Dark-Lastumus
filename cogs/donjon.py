@@ -34,7 +34,7 @@ class DonjonCog(commands.Cog):
         @app_commands.describe(
             donjon='Le donjon en question',
             stasis='Le niveau de stasis',
-            date='La date souhaitée dans le format JJ/MM/AAAA HH:MM heure française. Exemple: "24/02/1999 23:45"',
+            date='La date souhaitée dans le format JJ/MM/AAAA HH:MM + QC si vous ête Québécois. Exemple: "24/02/1999 23:45" ou "24/02/1999 17:45 QC"',
             info='Info supplémentaire (exemple: besoin d\'une eniripsa, besoin d\'une personne expérimenté, 1/2/3 stele(s),  ...)'
         )
         async def callback(ctx: discord.context_managers, donjon: donjon_level, stasis: Literal[1,2,3,4,5,6,7,8,9,10], date="", info=""): # type: ignore
