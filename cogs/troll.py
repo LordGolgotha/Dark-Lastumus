@@ -5,21 +5,31 @@ import os
 
 liste_ustre = [
         ("Ustre l'originel",0),
+        ("Ustre est parmis nous",0),
+        ("Hommage à Ustre",0),
 
         ("Ustre est jaloux de ton \"talent\"",1),
         ("C'est ça qui te tacle quoi... ",1),
         ("Donc là tu passes à coté de ça et tu es taclé·e? ...",1),
-        ("Il sait pas aligné un pas devant l'autre mais toi... il te tacle? ",1),
+        ("Il sait pas aligner un pas devant l'autre mais toi... il te tacle? ",1),
 
         ("Taclé mais t'es pas stab hein? .... t'es pas stab...",2),
         ("Pourquoi tu es allé·e te coller à ça aussi...",2),
+        ("Bon ben tue le si tu veux bouger",2),
 
+        ("\"Quelqu'un pour me déustrer?\"",3),
         ("Bon en même temps... voilà quoi...",3),
         ("Ce fut un plaisir de te connaitre o7",3),
         ("J'espère pour toi que tu n'es pas stab",3),
-        ("Une immu? Une dépha? Pitié...", 3),
+        ("\"Une immu? Une dépha? Pitié...\"", 3),
 
-        ("Je... euh.. allo? Tu es encore conscient",4)
+        ("Je... euh.. allo? Tu es encore conscient",4),
+        ("IL A 0 DE TACLE! ZERO, FAIT UN EFFORT!",4),
+        ("Ton esquive est négative, littéralement...",4),
+        ("On pensait que c'était impossible, tu l'as fait GG",4),
+        ("Sans commentaire...",4),
+
+        ("Tu n'as pas été sage, Chuck viens te tacler",5),
     ]
 
 class TrollCog(commands.Cog):
