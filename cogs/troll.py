@@ -60,8 +60,8 @@ class TrollCog(commands.Cog):
 
     @commands.hybrid_command(description="Ca me tacle?")
     async def ustre(self,ctx):
-        r1 = randint(0, len(self.liste_ustre)-1)
-        elem = self.liste_ustre[r1]
+        r1 = randint(0, len(liste_ustre)-1)
+        elem = liste_ustre[r1]
         phrase = elem[0]
         file = ""
         if elem[1] == 0:
