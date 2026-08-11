@@ -29,8 +29,9 @@ liste_ustre = [
         ("On pensait que c'était impossible, tu l'as fait GG",4),
         ("Sans commentaire...",4),
 
-        ("Tu n'as pas été sage, Chuck viens te tacler",5),
-        ("Ustre est un hommage a un joueur écaflip qui devait venir réanimler un autre joueur mais qui n'a pas pu car il a été taclé par un cocon sabléoptère, voici d'ou viens: Ustre",6)
+        ("Tu n'as pas été sage, Chuck viens te tacler",discord.File("./images/chuck.png")),
+        ("Ustre est un hommage a un joueur écaflip qui devait venir réanimer un autre joueur mais qui n'a pas pu car il a été taclé par un cocon sabléoptère, voici d'ou viens: Ustre",None),
+        ("Là c'est bien dur de sortir, n'est-ce pas Virtu?",discord.File("./images/virtu.png"))
     ]
 
 class TrollCog(commands.Cog):
@@ -72,7 +73,12 @@ class TrollCog(commands.Cog):
         elem = liste_ustre[r1]
         phrase = elem[0]
         file = ""
-        if elem[1] == 0:
+        if elem[1] is None:
+            await ctx.send(elem[0])
+            return 
+        elif elem[1] is not type(int):
+            file = elem[1]
+        elif elem[1] == 0:
             file=discord.File("./images/Cocon.png")
         elif elem[1] == 1:
             r2 = randint(0, len(self.liste_img_1)-1)
@@ -87,11 +93,11 @@ class TrollCog(commands.Cog):
             r2 = randint(0, len(self.liste_img_4)-1)
             file = discord.File(f"./images/4/{self.liste_img_4[r2]}")
         elif elem[1] == 5:
-                r2 = randint(0, len(self.liste_img_5)-1)
-                file = discord.File(f"./images/5/{self.liste_img_5[r2]}")
+            r2 = randint(0, len(self.liste_img_5)-1)
+            file = discord.File(f"./images/5/{self.liste_img_5[r2]}")
         elif elem[1] == 6:
-                r2 = randint(0, len(self.liste_img_6)-1)
-                file = discord.File(f"./images/6/{self.liste_img_6[r2]}")
+            r2 = randint(0, len(self.liste_img_6)-1)
+            file = discord.File(f"./images/6/{self.liste_img_6[r2]}")
         await ctx.send(phrase,file=file)
 
 
