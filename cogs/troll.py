@@ -31,7 +31,8 @@ liste_ustre = [
 
         ("Tu n'as pas été sage, Chuck viens te tacler",discord.File("./images/chuck.png")),
         ("Ustre est un hommage a un joueur écaflip qui devait venir réanimer un autre joueur mais qui n'a pas pu car il a été taclé par un cocon sabléoptère, voici d'ou viens: Ustre",None),
-        ("Là c'est bien dur de sortir, n'est-ce pas Virtu?",discord.File("./images/virtu.png"))
+        ("Là c'est bien dur de sortir, n'est-ce pas Virtu?",discord.File("./images/virtu.png")),
+        ("Se faire ustre deviens rentable",discord.File("./images/rentable.png")),
     ]
 
 class TrollCog(commands.Cog):
