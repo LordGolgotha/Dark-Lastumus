@@ -70,7 +70,7 @@ class TrollCog(commands.Cog):
         if elem[1] is None:
             await ctx.send(elem[0])
             return 
-        elif elem[1] is not type(int):
+        elif type(elem[1]) is not type(int):
             file = elem[1]
         elif elem[1] == 0:
             file=discord.File("./images/Cocon.png")
