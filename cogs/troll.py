@@ -56,12 +56,6 @@ class TrollCog(commands.Cog):
         for filename in os.listdir('./images/4'):
             if filename.endswith('.png'):
                 self.liste_img_4.append(filename)
-        for filename in os.listdir('./images/5'):
-            if filename.endswith('.png'):
-                self.liste_img_5.append(filename)
-        for filename in os.listdir('./images/6'):
-            if filename.endswith('.png'):
-                self.liste_img_6.append(filename)
 
     @commands.hybrid_command(description="Bonjour?")
     async def bonjour(self, ctx):
@@ -92,12 +86,6 @@ class TrollCog(commands.Cog):
         elif elem[1] == 4:
             r2 = randint(0, len(self.liste_img_4)-1)
             file = discord.File(f"./images/4/{self.liste_img_4[r2]}")
-        elif elem[1] == 5:
-            r2 = randint(0, len(self.liste_img_5)-1)
-            file = discord.File(f"./images/5/{self.liste_img_5[r2]}")
-        elif elem[1] == 6:
-            r2 = randint(0, len(self.liste_img_6)-1)
-            file = discord.File(f"./images/6/{self.liste_img_6[r2]}")
         await ctx.send(phrase,file=file)
 
 
