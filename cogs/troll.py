@@ -29,10 +29,10 @@ liste_ustre = [
         ("On pensait que c'était impossible, tu l'as fait GG",4),
         ("Sans commentaire...",4),
 
-        ("Tu n'as pas été sage, Chuck viens te tacler",discord.File("./images/chuck.png")),
+        ("Tu n'as pas été sage, Chuck viens te tacler","chuck.png"),
         ("Ustre est un hommage a un joueur écaflip qui devait venir réanimer un autre joueur mais qui n'a pas pu car il a été taclé par un cocon sabléoptère, voici d'ou viens: Ustre",None),
-        ("Là c'est bien dur de sortir, n'est-ce pas Virtu?",discord.File("./images/virtu.png")),
-        ("Se faire ustre deviens rentable",discord.File("./images/rentable.png")),
+        ("Là c'est bien dur de sortir, n'est-ce pas Virtu?","virtu.png"),
+        ("Se faire ustre deviens rentable","rentable.png"),
     ]
 
 class TrollCog(commands.Cog):
@@ -72,7 +72,7 @@ class TrollCog(commands.Cog):
             await ctx.send(elem[0])
             return 
         elif type(elem[1]) is not int:
-            file = elem[1]
+            file = discord.File(f"./images/{elem[1]}")
         elif elem[1] == 0:
             file=discord.File("./images/Cocon.png")
         elif elem[1] == 1:
@@ -87,6 +87,7 @@ class TrollCog(commands.Cog):
         elif elem[1] == 4:
             r2 = randint(0, len(self.liste_img_4)-1)
             file = discord.File(f"./images/4/{self.liste_img_4[r2]}")
+        print(f"Ustre: {phrase} | {file}")
         await ctx.send(phrase,file=file)
 
 
