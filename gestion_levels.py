@@ -2,7 +2,8 @@ from pymongo_get_database import get_database
 
 from datetime import datetime
 from zoneinfo import ZoneInfo
-
+import dateparser
+import re
 
 dbname = get_database('Level')
 collection_opti = dbname["opti"]
@@ -102,21 +103,29 @@ def del_level(pseudo,classe,level:int,collection):
             new_dict_player[player_classe] = player['levels'][player_classe].copy()
     collection.update_one({"_id" : pseudo}, {'$set': {"levels" : new_dict_player}})
     
+def normalize_hour(date: str):
+    return re.sub(
+        r"\b(\d{1,2})[hH](?!\d)",
+        r"\1h00",
+        date
+    )
+
 def convert_date(date: str):
     if date == "":
         return ""
     qc = False
+    
     if date.endswith("QC"):
         date = date.replace(" QC","")
         qc = True
-    for fmt in ["%d/%m/%Y %H:%M", "%d/%m/%Y %Hh%M", "%d/%m/%Y %H","%d/%m/%Y %Hh"]:
-        try:
-            dt = datetime.strptime(date, fmt)
-            break
-        except ValueError:
-            continue
-    else:
-        return "invalid"
+    date = normalize_hour(date)
+    dt = dateparser.parse(
+        date,
+        languages=["fr","en"],
+        settings={
+            "PREFER_DATES_FROM": "future"
+        }
+    )
     if qc:
         dt = dt.replace(tzinfo=ZoneInfo("America/Toronto"))
     else:
@@ -172,13 +181,15 @@ def delete_dj(id):
     collection_donjon.delete_one({"_id": int(id)})
 
 if __name__ == "__main__":
-    print(convert_date("12/06/2026 14h QC"))
-    print(convert_date("12/06/2026 14h00 QC"))
-    print(convert_date("12/06/2026 14 QC"))
-    print(convert_date("12/06/2026 14:00 QC"))
+    print(convert_date("12/06/2027 14h QC"))
+    print(convert_date("12/06/2027 14h00 QC"))
+    print(convert_date("12/06/2027 14:00 QC"))
+    print(convert_date("12 Juin 14:00 QC"))
+    print(convert_date("12/06 14:00 QC"))
 
     
-    print(convert_date("12/06/2026 20h"))
-    print(convert_date("12/06/2026 20h00"))
-    print(convert_date("12/06/2026 20"))
-    print(convert_date("12/06/2026 20:00"))
+    print(convert_date("12/06/2027 20h"))
+    print(convert_date("12/06/2027 20h00"))
+    print(convert_date("12/06/2027 20:00"))
+    print(convert_date("12Juin20:00"))
+    print(convert_date("12/06 20:00"))
