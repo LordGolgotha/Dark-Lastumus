@@ -48,6 +48,18 @@ class DonjonCog(commands.Cog):
 
         self.bot.add_command(callback)
 
+    @commands.hybrid_command(
+        name=f"dj{level}",
+        description=f"Organiser un groupe de donjon lvl {level}"
+    )
+    @app_commands.describe(
+        id_message="L'id du message que vous voulez refresh",
+        info='Va remettre à jour le message/donjon si jamais il a été cassé par une maj du bot'
+    )
+    async def refresh_message(ctx: discord.context_managers, id_message: int):
+        message = await ctx.fetch_message(id_message)
+        await message.edit(text = construction_message(self.bot,id))
+
     @commands.Cog.listener()
     async def on_ready(self):
         try:

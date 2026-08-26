@@ -7,7 +7,7 @@ ORANGE = "33m"
 
 def construction_message(bot,id):
         info_dj = get_dj_info(id)
-        text = f"Donjon **{info_dj['donjon']}** modulé **S{info_dj['stasis']}**"
+        text = f"ID donjon: {id} \nDonjon **{info_dj['donjon']}** modulé **S{info_dj['stasis']}**"
         nb_joueur = len(info_dj['joueurs'])
         nb_joueur_max = info_dj['nb_joueur']
         nb_joueur_mid = nb_joueur_max // 2
