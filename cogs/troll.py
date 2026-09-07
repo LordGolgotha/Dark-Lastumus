@@ -33,6 +33,19 @@ liste_ustre = [
         ("Ustre est un hommage a un joueur écaflip qui devait venir réanimer un autre joueur mais qui n'a pas pu car il a été taclé par un cocon sabléoptère, voici d'ou viens: Ustre",None),
         ("Là c'est bien dur de sortir, n'est-ce pas Virtu?","virtu.png"),
         ("Se faire ustre deviens rentable","rentable.png"),
+        ("Vous savez, moi je ne crois pas qu'il y ai de bonne ou de mauvaise manière d'être ustre. \
+        Moi si je devais résumer ma vie aujourd'hui avec vous, je dirais que c'est d'abords des rencontres.\
+        Des mobs qui m'ont taclé de fou, peut-être à un moment où je ne pouvais pas, où j'était seul et stab.\
+        Et c'est assez curieux de se dire que les hasards, les rencontres forgent une destinée...\
+        Parce que quand on a le goût de la chose, le goût de la chose bien faite, le beau geste,\
+        parfois on ne met pas cette esquive sur notre anneau, cette esquive qui nous aide à avancer.\
+        Alors ça n'est pas mon cas, comme je disais là, puisque moi au contraire, j'ai pu ; \
+        et je dis merci à l'esquive, je lui dis merci, je chante l'esquive, je danse l'esquive... \
+        je ne suis qu'évasion! Et finalement, quand des gens me disent \" \
+        Mais comment fais-tu pour avoir cette esquive? \" \
+        je leur réponds très simplement que c'est ce goût de l'évasion, \
+        ce goût donc qui m'a poussé aujourd'hui à entreprendre ce donjon... \
+        mais demain qui sait? Peut-être simplement à me mettre au service de la communauté, à devenir placeur, sram placeur",None)
     ]
 
 class TrollCog(commands.Cog):
@@ -45,6 +58,7 @@ class TrollCog(commands.Cog):
         self.liste_img_4 = list()
         self.liste_img_5 = list()
         self.liste_img_6 = list()
+
         for filename in os.listdir('./images/1'):
             if filename.endswith('.png'):
                 self.liste_img_1.append(filename)
@@ -61,6 +75,7 @@ class TrollCog(commands.Cog):
     @commands.hybrid_command(description="Bonjour?")
     async def bonjour(self, ctx):
         await ctx.send(f"Bonsoir c'est moi Lastumus, je déteste les péruches, le hockey et ma soeur. Par contre j'adore les Tacos et Ben-Chest!")
+
 
     @commands.hybrid_command(description="Ca me tacle?")
     async def ustre(self,ctx):
@@ -89,6 +104,16 @@ class TrollCog(commands.Cog):
             file = discord.File(f"./images/4/{self.liste_img_4[r2]}")
         print(f"Ustre: {phrase} | {file}")
         await ctx.send(phrase,file=file)
+
+async def new_ustre(self, ctx):
+    r = randint(0,5)
+    if r == 0:
+        r2 = randint(len(p_ustre_0))
+        r3 = randint(len(liste_img_0))
+
+        phrase = p_ustre_0[r2]
+        file = liste_img_0[r3]
+
 
 
 async def setup(bot):
