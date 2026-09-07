@@ -1,3 +1,4 @@
+import asyncio
 import discord
 from discord.ext import commands
 from discord import app_commands
@@ -5,12 +6,14 @@ from liste_donjon import *
 from ClasseButton import ClassButton
 from gestion_levels import create_dj, convert_date
 from gestion_message import *
+from rate_limit import safe_api_call
 
 MAX_LEVEL = 245
 
 class DonjonCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self._synced = False
         for level in range(20,MAX_LEVEL+1,15):
             self._add_dj_command(level)
 
@@ -40,11 +43,15 @@ class DonjonCog(commands.Cog):
         async def callback(ctx: discord.context_managers, donjon: donjon_level, stasis: Literal[1,2,3,4,5,6,7,8,9,10], date="", info=""): # type: ignore
             link = donjon_link_map.get(donjon, "")
             channel = discord.utils.get(ctx.guild.text_channels, name="activité")
-            interaction_dj = await channel.send("Création de votre donjon, veuillez patientez...", view=ClassButton(bot,donjon_nb_joueur_map.get(donjon), link=link))
-            await interaction_dj.create_thread(name=f"Donjon {donjon} stasis {stasis} lvl {level}")
+            interaction_dj = await safe_api_call(channel.send("Création de votre donjon, veuillez patientez...", view=ClassButton(bot,donjon_nb_joueur_map.get(donjon), link=link)))
+            await asyncio.sleep(1)
+            await safe_api_call(interaction_dj.create_thread(name=f"Donjon {donjon} stasis {stasis} lvl {level}"))
+            await asyncio.sleep(1)
             contenu = dj_generique(id=interaction_dj.id, donjon=donjon, stasis=stasis, date=date, info=info)
-            await ctx.send(f"Votre donjon a été créé avec succès! [Ici]({interaction_dj.jump_url})")
-            await interaction_dj.edit(content=contenu)
+            await asyncio.sleep(1)
+            await safe_api_call(ctx.send(f"Votre donjon a été créé avec succès! [Ici]({interaction_dj.jump_url})"))
+            await asyncio.sleep(1)
+            await safe_api_call(interaction_dj.edit(content=contenu))
 
         self.bot.add_command(callback)
 
@@ -62,8 +69,11 @@ class DonjonCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
+        if self._synced:
+            return
         try:
             sync = await self.bot.tree.sync()
+            self._synced = True
             print(f"{len(sync)} commande chargé")
         except Exception as e:
             print(e)

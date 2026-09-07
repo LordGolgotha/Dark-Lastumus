@@ -1,7 +1,9 @@
+import asyncio
 import discord
 from liste_donjon import emoji_list,classe_list
 from gestion_levels import add_player_dj, remove_player_dj,get_dj_info, modif_compo
 from gestion_message import *
+from rate_limit import safe_api_call
 
 class ClassButton(discord.ui.View):
     """
@@ -28,7 +30,8 @@ class ClassButton(discord.ui.View):
         async def callback(interaction: discord.Interaction):
             predicat = await self.gestion_interaction_generique(interaction, classe,nb_joueur_max)
             button.style = discord.ButtonStyle.blurple if predicat else discord.ButtonStyle.gray
-            await interaction.response.edit_message(view=self)
+            await asyncio.sleep(0.5)
+            await safe_api_call(interaction.response.edit_message(view=self))
         button.callback = callback
         self.add_item(button)
 
@@ -46,7 +49,8 @@ class ClassButton(discord.ui.View):
                 player_id = interaction.user.id
                 modif_compo(id_dj, player_id, _emoji)
                 contenu = construction_message(self.bot, id_dj)
-                await interaction.message.edit(content=contenu, view=self)
+                await asyncio.sleep(0.5)
+                await safe_api_call(interaction.message.edit(content=contenu, view=self))
             button.callback = callback
             self.add_item(button)
 
@@ -64,5 +68,6 @@ class ClassButton(discord.ui.View):
             add_player_dj(id_dj,player_id,classe)
             result = True
         contenu = construction_message(self.bot,id_dj)
-        await interaction.message.edit(content=contenu, view=self)
+        await asyncio.sleep(0.5)
+        await safe_api_call(interaction.message.edit(content=contenu, view=self))
         return result
