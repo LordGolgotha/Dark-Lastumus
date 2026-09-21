@@ -55,6 +55,7 @@ class DonjonCog(commands.Cog):
 
         self.bot.add_command(callback)
 
+    """
     @commands.hybrid_command(
         name=f"dj{level}",
         description=f"Organiser un groupe de donjon lvl {level}"
@@ -65,7 +66,7 @@ class DonjonCog(commands.Cog):
     )
     async def refresh_message(ctx: discord.context_managers, id_message: int):
         message = await ctx.fetch_message(id_message)
-        await message.edit(text = construction_message(self.bot,id))
+        await message.edit(text = construction_message(self.bot,id))"""
 
     @commands.Cog.listener()
     async def on_ready(self):
