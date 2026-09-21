@@ -6,7 +6,7 @@ from keep_alive import keep_alive
 
 load_dotenv()
 
-token = token = os.getenv('DISCORD_TOKEN')
+token = os.getenv('DISCORD_TOKEN')
 
 class DarkLastumus(commands.Bot):
     async def setup_hook(self):
@@ -16,6 +16,13 @@ class DarkLastumus(commands.Bot):
 
 intents = discord.Intents.all()
 bot = DarkLastumus(command_prefix='!', intents=intents)
+
+import urllib.request
+
+print(
+    "IP publique de Render :",
+    urllib.request.urlopen("https://api.ipify.org").read().decode()
+)
 
 keep_alive()
 bot.run(token=token)
